@@ -1,0 +1,1538 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Mobilní Wellness</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --accent:#E20074;
+  --accent-text:#C2005F;
+  --bg:#FFFFFF;
+  --soft:#FAF6F8;
+  --text:#000000;
+  --muted:#5E5A62;
+  --line:#EEE8EC;
+  --r:14px;
+  --tone:#FFE4F1;
+  --tone-ink:#B0005A;
+  --tone-deep:#E20074;
+  color-scheme:light;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+.tone-k{--tone:#FFE4F1;--tone-ink:#B0005A;--tone-deep:#E20074}
+.tone-v{--tone:#FFF0C7;--tone-ink:#7A4E00;--tone-deep:#E8A200}
+.tone-o{--tone:#DCEBFF;--tone-ink:#1D4FB8;--tone-deep:#2F6FED}
+*,*::before,*::after{box-sizing:inherit}
+html,body{min-height:100%;background:var(--bg)}
+body{margin:0;color:var(--text);font-family:'Inter',-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased}
+h1,h2,h3,.disp{font-family:'Bricolage Grotesque','Inter',-apple-system,'Segoe UI',sans-serif}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+a{color:inherit}
+.wrap{max-width:760px;margin:0 auto;padding:0 20px}
+.wrap-wide{max-width:1080px;margin:0 auto;padding:0 20px}
+
+/* views */
+.view{display:none}
+.view.view-on{display:block}
+
+/* úvod */
+.brand{display:flex;align-items:center;gap:10px;padding:22px 0 0;font-weight:700;font-size:15px}
+.brand i{width:16px;height:16px;background:var(--accent);border-radius:4px;display:block}
+.hero{padding:56px 0 28px;max-width:660px}
+.hero h1{font-size:clamp(52px,14vw,104px);line-height:.9;letter-spacing:-.05em;font-weight:800;margin:0 0 18px}
+.lead{color:var(--muted);font-size:19px;margin:0;max-width:30em}
+
+.zv{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px 28px;background:var(--accent);color:#fff;border-radius:28px;padding:22px 24px;margin:0 0 18px}
+.zv h2{font-size:24px;line-height:1.1;letter-spacing:-.02em;margin:0 0 6px;font-weight:800}
+.zv p{margin:0;max-width:36em;opacity:.95}
+.zv-btn{display:inline-flex;align-items:center;gap:8px;background:#fff;color:var(--accent-text);text-decoration:none;font-weight:700;border-radius:999px;padding:12px 22px;min-height:48px;flex:none}
+.zv-btn:hover{background:#FFF0F7}
+
+.tiles{list-style:none;margin:0 0 14px;padding:0;display:grid;gap:14px;grid-template-columns:1fr}
+@media (min-width:760px){.tiles{grid-template-columns:repeat(3,1fr)}.tiles .tile{min-height:330px}.tiles .tile .ill{width:120px}}
+.tile{position:relative;display:flex;flex-direction:column;justify-content:flex-end;min-height:260px;padding:24px;border-radius:28px;background:var(--tone);text-decoration:none;overflow:hidden;transition:transform .2s ease}
+.tile:hover{transform:translateY(-4px)}
+.tile .ill{position:absolute;top:20px;right:20px;width:44%;max-width:150px;height:auto}
+.tile h2{font-size:clamp(30px,7vw,36px);line-height:1;letter-spacing:-.035em;margin:0 0 10px;font-weight:800;max-width:80%}
+.tile p{margin:0;font-size:16px;color:#2B2930;max-width:78%}
+.tile .go{position:absolute;right:20px;bottom:20px;width:46px;height:46px;border-radius:50%;background:#fff;color:var(--tone-ink);display:grid;place-items:center;font-size:20px;font-weight:700}
+@media (prefers-reduced-motion:reduce){.tile{transition:none}.tile:hover{transform:none}}
+
+/* stránka tématu */
+.hw{display:grid;grid-template-columns:auto 1fr 44px;align-items:center;gap:16px 20px;padding:20px 22px;margin:0 0 12px;border-radius:28px;background:var(--soft);text-decoration:none;border:2px solid transparent;transition:border-color .15s}
+.hw:hover{border-color:var(--line)}
+.hw-last{margin-bottom:64px}
+.hw-logo{display:grid;place-items:center;min-width:120px;height:56px;padding:0 16px;border-radius:16px;background:#fff;font-weight:700;letter-spacing:-.01em}
+.hw-logo img{max-height:36px;max-width:140px;display:block}
+.hw-text b{display:block;font-family:'Bricolage Grotesque','Inter',sans-serif;font-size:22px;letter-spacing:-.02em}
+.hw-text span{color:var(--muted);font-size:16px}
+.hw .arr{width:44px;height:44px;border-radius:50%;background:#fff;display:grid;place-items:center;font-size:18px}
+@media (max-width:560px){.hw{grid-template-columns:1fr 44px}.hw-logo{grid-column:1 / -1;justify-self:start}}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:rgba(255,255,255,.9);-webkit-backdrop-filter:saturate(1.4) blur(12px);backdrop-filter:saturate(1.4) blur(12px)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:rgba(255,255,255,.9);-webkit-backdrop-filter:saturate(1.4) blur(12px);backdrop-filter:saturate(1.4) blur(12px)}
+.bar .wrap{display:flex;align-items:center;height:60px}
+.back{display:inline-flex;align-items:center;gap:8px;text-decoration:none;font-weight:600;font-size:15px;min-height:40px;padding:8px 16px 8px 12px;border-radius:999px;background:var(--tone);color:var(--tone-ink)}
+.back span{font-size:18px}
+.bar .pos{margin-left:auto;color:var(--muted);font-size:15px}
+
+.thead{background:var(--tone);border-radius:0 0 36px 36px;padding:34px 0 44px;margin:0 0 32px}
+.thead .n{margin:0 0 8px;color:var(--tone-ink);font-weight:600}
+.thead h1{font-size:clamp(40px,11vw,68px);line-height:.95;letter-spacing:-.045em;font-weight:800;margin:0}
+
+.content{padding-bottom:40px}
+.content > p{font-size:18px}
+.content h2{font-size:clamp(25px,5.5vw,32px);line-height:1.08;letter-spacing:-.03em;margin:48px 0 16px;font-weight:800}
+.content p{margin:0 0 14px}
+
+.big{margin:0 0 8px}
+.big .num{font-family:'Bricolage Grotesque','Inter',sans-serif;font-size:clamp(36px,9.5vw,56px);font-weight:800;letter-spacing:-.04em;line-height:1;color:var(--tone-ink)}
+.big p{margin:14px 0 0;font-size:18px}
+
+.list{list-style:none;margin:0;padding:0;display:grid;gap:14px}
+.list li{position:relative;padding:0 0 0 28px}
+.list li::before{content:"";position:absolute;left:4px;top:8px;width:11px;height:11px;border-radius:50%;background:var(--tone-deep)}
+.list b{display:block}
+.list span{color:var(--muted);font-size:16px}
+
+.olist{list-style:none;margin:0;padding:0;counter-reset:o;display:grid;gap:16px}
+.olist li{counter-increment:o;position:relative;padding:5px 0 0 50px;min-height:36px}
+.olist li::before{content:counter(o);position:absolute;left:0;top:0;width:36px;height:36px;border-radius:50%;background:var(--tone);color:var(--tone-ink);font-family:'Bricolage Grotesque','Inter',sans-serif;font-weight:800;display:grid;place-items:center}
+.olist li b{font-weight:700}
+
+.say{display:flex;flex-direction:column;align-items:flex-start;gap:8px;margin:18px 0}
+.say p{background:var(--tone);border-radius:22px 22px 22px 6px;padding:12px 18px;margin:0;max-width:36em}
+.say q{font-weight:600;quotes:"„" "“"}
+
+.src{color:var(--muted);font-size:14px;margin-top:36px}
+.srclink{display:flex;justify-content:space-between;align-items:center;gap:14px;margin:32px 0 8px;padding:18px 20px;border:2px solid var(--tone);border-radius:22px;text-decoration:none;transition:border-color .15s}
+.srclink:hover{border-color:var(--tone-deep)}
+.srclink small{display:block;color:var(--muted);font-size:14px}
+.srclink b{display:block;font-weight:600;line-height:1.35}
+.srclink .arr{width:44px;height:44px;border-radius:50%;background:var(--tone);color:var(--tone-ink);display:grid;place-items:center;font-size:18px;flex:none}
+.placeholder{border:2px dashed var(--tone-deep);border-radius:22px;padding:28px 20px;color:var(--muted);text-align:center;opacity:.8}
+
+.topics{list-style:none;margin:0 0 20px;padding:0;display:grid;gap:12px}
+.topic{display:grid;grid-template-columns:1fr 44px;align-items:center;gap:14px;padding:18px 18px 18px 22px;border:2px solid var(--tone);border-radius:22px;text-decoration:none;transition:border-color .15s}
+.topic .n{display:none}
+.topic h2{font-size:22px;line-height:1.15;letter-spacing:-.02em;margin:0 0 4px;font-weight:800}
+.topic p{margin:0;color:var(--muted);font-size:15px}
+.topic .arr{width:44px;height:44px;border-radius:50%;background:var(--tone);color:var(--tone-ink);display:grid;place-items:center;font-size:18px;font-weight:700}
+.topic:hover{border-color:var(--tone-deep)}
+
+.next{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:22px 24px;border-radius:24px;background:var(--soft);text-decoration:none;margin:32px 0 56px;min-height:72px}
+.next small{display:block;color:var(--muted);font-size:14px}
+.next b{font-family:'Bricolage Grotesque','Inter',sans-serif;font-size:24px;letter-spacing:-.02em}
+.next .arr{width:46px;height:46px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-size:18px;flex:none}
+
+/* prototyp */
+.proto{border:1px solid var(--line);border-radius:var(--r);padding:18px 16px 20px;margin:16px 0}
+.p-step{margin:0;color:var(--muted);font-size:14px;font-weight:700}
+.p-ins{margin:4px 0 0;font-size:17px;min-height:3.1em}
+.p-fb{margin:6px 0 0;min-height:1.5em;font-size:15px;color:var(--muted)}
+.p-fb.bad{color:var(--accent-text)}
+.p-restart{margin-top:8px;background:var(--accent);color:#fff;border:0;border-radius:var(--r);padding:12px 18px;min-height:48px;font:inherit;font-weight:700;cursor:pointer}
+.phones{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:440px;margin:16px auto 0}
+.phone{text-align:center}
+.phone small{display:block;margin-top:8px;color:var(--muted);font-size:14px}
+.screen{position:relative;aspect-ratio:9/19;border:3px solid var(--text);border-radius:28px;overflow:hidden;background:#F2F2F7;color:#000;font-size:11px;line-height:1.3;text-align:center;font-family:-apple-system,'Inter','Segoe UI',Roboto,sans-serif}
+.screen button{font-family:inherit;cursor:pointer;color:#000}
+.s-home{display:grid;grid-template-columns:repeat(4,1fr);gap:14px 10px;padding:26% 12% 0}
+.s-home i{aspect-ratio:1;border-radius:24%;display:block}
+.s-off{position:absolute;inset:0;background:#000;display:grid;place-items:center;color:#8E8E93;cursor:pointer}
+.s-sheet{position:absolute;left:4%;right:4%;bottom:4%;background:#fff;border-radius:16px;padding:12px 10px;box-shadow:0 6px 20px rgba(0,0,0,.25)}
+.s-sheet b{display:block;font-size:12px;margin-bottom:4px}
+.s-sheet p{margin:0 0 8px;color:#3C3C43}
+.screen .s-btn{display:block;width:100%;background:#0A84FF;color:#fff;border:0;border-radius:10px;padding:8px 4px;font-weight:700;font-size:11px;min-height:32px}
+.s-center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:10%;gap:8px}
+.s-center h4{margin:0;font-size:13px}
+.s-center p{margin:0}
+.s-hello{font-size:26px;font-weight:700}
+.s-orb{width:62%;aspect-ratio:1;border-radius:50%;background:conic-gradient(#0A84FF,#BF5AF2,#FF375F,#FF9F0A,#30D158,#0A84FF);-webkit-mask:radial-gradient(circle,transparent 38%,#000 40%);mask:radial-gradient(circle,transparent 38%,#000 40%);animation:spin 3s linear infinite}
+.s-ring{width:55%;aspect-ratio:1;border-radius:50%;border:3px dashed #30D158;animation:spin 2s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.s-cam{position:absolute;inset:0;background:#1C1C1E;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:10%}
+.s-cam p{margin:0}
+.s-frame{width:70%;aspect-ratio:1;border:2px solid #fff;border-radius:12px}
+.s-code{padding:22% 8% 0}
+.s-code p{margin:0}
+.s-dots{display:flex;justify-content:center;gap:6px;margin:8px 0 12px}
+.s-dots i{width:8px;height:8px;border-radius:50%;border:1px solid #000}
+.s-dots i.on{background:#000}
+.s-keys{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.screen .s-keys button{aspect-ratio:1;border-radius:50%;border:0;background:#D1D1D6;font-size:13px;padding:0}
+.s-list{padding:20% 6% 0;text-align:left}
+.s-list h4{text-align:center;margin:0 0 10px;font-size:12px}
+.screen .s-list button{display:block;width:100%;text-align:left;background:#fff;border:0;border-bottom:1px solid #E5E5EA;padding:10px 8px;font-size:11px}
+.screen .s-list button small{color:#8E8E93}
+.screen .s-list .s-link{background:none;border:0;color:#0A84FF;text-align:center;margin-top:10px}
+.s-choice{position:absolute;inset:0;padding:22% 7% 0;display:flex;flex-direction:column;gap:8px}
+.s-choice h4{margin:0 0 6px;font-size:12px}
+.screen .s-choice button{background:#fff;border:0;border-radius:10px;padding:10px 8px;font-size:11px;text-align:left}
+.screen .s-choice button b{display:block}
+.s-bar{width:80%;height:6px;background:#D1D1D6;border-radius:3px;overflow:hidden}
+.s-bar i{display:block;height:100%;width:0;background:#0A84FF}
+.s-note{position:absolute;left:6%;right:6%;bottom:6%;background:rgba(255,255,255,.94);border-radius:10px;padding:8px;font-size:10.5px;display:flex;flex-direction:column;align-items:center;gap:6px}
+.tgt{box-shadow:0 0 0 3px #E20074;animation:pulse 1.4s ease-in-out infinite}
+.s-off.tgt{box-shadow:inset 0 0 0 4px #E20074;animation:none}
+@keyframes pulse{50%{box-shadow:0 0 0 6px rgba(226,0,116,.35)}}
+@media (prefers-reduced-motion:reduce){.s-orb,.s-ring,.tgt{animation:none}}
+.screen.android{border-radius:22px;background:#FFFFFF;font-family:Roboto,'Inter','Segoe UI',sans-serif}
+.a-home{display:grid;grid-template-columns:repeat(4,1fr);gap:16px 10px;padding:28% 10% 0;align-items:start}
+.a-home > i{aspect-ratio:1;border-radius:50%;display:block}
+.screen .a-app{background:none;border:0;padding:0;display:flex;flex-direction:column;align-items:center;gap:3px;border-radius:10px}
+.a-app i{width:100%;aspect-ratio:1;border-radius:50%;background:#000;display:block}
+.a-app span{font-size:7.5px;line-height:1.1}
+.a-page{position:absolute;inset:0;padding:22% 9% 0;text-align:left;display:flex;flex-direction:column;gap:8px}
+.a-page h4{margin:0;font-size:13px}
+.a-page p{margin:0;color:#444}
+.a-row{display:flex;justify-content:flex-end;gap:8px;margin-top:auto;margin-bottom:14%}
+.screen .a-btn{background:#1A73E8;color:#fff;border:0;border-radius:999px;padding:8px 12px;font-weight:700;font-size:11px;min-height:32px}
+.screen .a-ghost{background:none;color:#1A73E8;border:0;border-radius:999px;padding:8px 10px;font-weight:700;font-size:11px;min-height:32px}
+.a-dialog{position:absolute;left:6%;right:6%;top:34%;background:#fff;border-radius:16px;padding:12px;box-shadow:0 6px 24px rgba(0,0,0,.3);text-align:left}
+.a-dialog b{display:block;font-size:12px;margin-bottom:4px}
+.a-dialog p{margin:0 0 6px;color:#444}
+.a-dialog .a-row{margin:0}
+.a-dim{position:absolute;inset:0;background:rgba(0,0,0,.35)}
+.a-checks{display:flex;flex-direction:column;gap:6px}
+.a-checks span{display:flex;align-items:center;gap:6px}
+.a-checks span::before{content:"";width:10px;height:10px;border-radius:2px;background:#1A73E8;flex:none}
+.s-bigcode{font-size:20px;font-weight:700;letter-spacing:2px}
+.s-set{padding:22% 6% 0;text-align:left}
+.s-set h4{text-align:center;margin:0 0 10px;font-size:12px}
+.s-row{display:flex;justify-content:space-between;align-items:center;background:#fff;border-radius:10px;padding:9px 10px}
+.screen .s-switch{width:34px;height:20px;border-radius:10px;background:#34C759;border:0;position:relative;padding:0;flex:none}
+.s-switch::after{content:"";position:absolute;top:2px;right:2px;width:16px;height:16px;border-radius:50%;background:#fff}
+.screen .s-switch.off{background:#D1D1D6}
+.s-switch.off::after{right:auto;left:2px}
+.qr{width:60%;aspect-ratio:1;display:block;margin:6px auto}
+.s-frame .qr{width:80%;margin:10%}
+.screen .i-app{background:none;border:0;padding:0;display:flex;flex-direction:column;align-items:center;gap:3px;border-radius:10px}
+.i-app i{width:100%;aspect-ratio:1;border-radius:24%;background:#8E8E93;display:block}
+.i-app span{font-size:7.5px;line-height:1.1}
+.a-notif{position:absolute;left:5%;right:5%;top:6%;background:#fff;border-radius:14px;padding:10px;box-shadow:0 4px 16px rgba(0,0,0,.25);text-align:left;width:90%;border:0}
+.a-notif b{display:block;font-size:11px}
+.phones.one{grid-template-columns:1fr;max-width:210px}
+.f-page{position:absolute;inset:0;padding:20% 8% 0;display:flex;flex-direction:column;gap:7px;text-align:left}
+.f-page h4{margin:0 0 4px;font-size:13px;text-align:center}
+.f-page p{margin:0;color:#3C3C43;text-align:center}
+.f-in{background:#fff;border-radius:8px;padding:8px;color:#8E8E93;font-size:11px;border:1px solid #E5E5EA}
+.f-in.filled{color:#000}
+.screen .f-link{background:none;border:0;color:#0A84FF;font-size:11px;padding:6px 0;text-align:center}
+.android .f-link{color:#1A73E8}
+.f-bottom{margin-top:auto;margin-bottom:12%;display:flex;flex-direction:column;gap:6px}
+.screen .f-opt{background:#fff;border:1px solid #E5E5EA;border-radius:10px;padding:9px 8px;font-size:11px;text-align:left}
+.screen .a-search{position:absolute;left:7%;right:7%;bottom:6%;background:#F1F3F4;border:0;border-radius:999px;padding:9px 12px;display:flex;align-items:center;gap:8px;font-size:11px;color:#5F6368;text-align:left}
+.a-search b,.a-gq b{color:#4285F4;font-size:13px}
+.a-gq{margin:22% 7% 0;background:#F1F3F4;border-radius:999px;padding:9px 12px;display:flex;align-items:center;gap:8px;text-align:left}
+.screen .a-sug{display:block;width:86%;margin:8px 7% 0;background:#fff;border:0;border-bottom:1px solid #E5E5EA;padding:10px 8px;text-align:left;font-size:11px}
+.a-match{font-size:22px;font-weight:700;letter-spacing:3px}
+.a-cable{width:40%;height:6px;border-radius:3px;background:#5F6368;margin:6px auto}
+.s-dock{position:absolute;left:5%;right:5%;bottom:3%;background:rgba(255,255,255,.55);border-radius:18px;padding:8px 9px;display:grid;grid-template-columns:repeat(4,1fr);gap:9px}
+.s-dock > i{aspect-ratio:1;border-radius:24%;display:block}
+.screen .i-cam,.i-camstatic{aspect-ratio:1;border-radius:24%;background:#8E8E93;border:0;padding:0;display:grid;place-items:center;width:100%}
+.i-cam i,.i-camstatic::after{content:"";width:42%;aspect-ratio:1;border-radius:50%;background:#1C1C1E;border:2px solid #D1D1D6;display:block}
+.s-camlabel{position:absolute;right:5%;bottom:15%;background:#E20074;color:#fff;font-size:10px;font-weight:700;padding:3px 7px;border-radius:8px}
+.next{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:24px 4px;border-top:1px solid var(--line);text-decoration:none;margin-bottom:48px;min-height:72px}
+.next small{display:block;color:var(--muted);font-size:14px}
+.next b{font-size:20px}
+.next .arr{font-size:24px;color:var(--accent-text)}
+
+/* prototyp ve světlém stylu */
+.proto{background:var(--soft);border:0;border-radius:26px;padding:22px 16px 26px}
+.p-restart{border-radius:999px}
+</style>
+</head>
+<body>
+
+<!-- ÚVODNÍ STRÁNKA -->
+<main class="view view-on" id="home">
+  <div class="wrap-wide">
+    <header class="hero">
+      <h1>Mobilní Wellness</h1>
+      <p class="lead">Všechno důležité z workshopu. Klikni na téma, které právě potřebuješ.</p>
+    </header>
+    <aside class="zv">
+      <div>
+        <h2>Potřebujeme tvoji zpětnou vazbu</h2>
+        <p>Je pro nás nesmírně důležitá. Pomůže nám vylepšit workshop i tenhle průvodce. Díky, že si na to najdeš chvilku.</p>
+      </div>
+      <a class="zv-btn" href="https://forms.cloud.microsoft/Pages/ResponsePage.aspx?id=V7ATsggQBEKMU4FHvGAqKdER1zjUMdtOhg6Zim9EieBUOFBFU1dNQjJFV1Y0SUxMUVMxNElaSjZGRS4u" target="_blank" rel="noopener">Vyplnit dotazník <span aria-hidden="true">↗</span></a>
+    </aside>
+    <ul class="tiles">
+      <li><a class="tile tone-k" href="#komunikace">
+        <svg class="ill" viewBox="0 0 120 100" aria-hidden="true">
+          <path d="M20 8h56a16 16 0 0 1 16 16v20a16 16 0 0 1-16 16H38l-14 12v-12h-4A16 16 0 0 1 4 44V24A16 16 0 0 1 20 8z" fill="#E20074"/>
+          <path d="M52 44h48a16 16 0 0 1 16 16v14a16 16 0 0 1-16 16h-2v10l-12-10H52a16 16 0 0 1-16-16V60a16 16 0 0 1 16-16z" fill="#fff"/>
+          <circle cx="62" cy="67" r="4.5" fill="#E20074"/><circle cx="76" cy="67" r="4.5" fill="#E20074"/><circle cx="90" cy="67" r="4.5" fill="#E20074"/>
+        </svg>
+        <h2>Komunikace</h2>
+        <p>Jak začít rozhovor, zjistit potřebu a předat zákazníka kolegovi.</p>
+        <span class="go" aria-hidden="true">→</span></a></li>
+      <li><a class="tile tone-v" href="#vanocni-akce">
+        <svg class="ill" viewBox="0 0 120 100" aria-hidden="true">
+          <rect x="22" y="44" width="72" height="52" rx="8" fill="#E8A200"/>
+          <rect x="16" y="32" width="84" height="18" rx="6" fill="#F5B820"/>
+          <rect x="52" y="32" width="12" height="64" fill="#fff"/>
+          <path d="M58 32c-10-16-30-14-26-2 3 8 18 4 26 2zM58 32c10-16 30-14 26-2-3 8-18 4-26 2z" fill="#E20074"/>
+          <path d="M104 6l3 9 9 3-9 3-3 9-3-9-9-3 9-3z" fill="#E20074"/>
+        </svg>
+        <h2>Vánoční akce</h2>
+        <p>Co nabídka obsahuje a pro koho je zajímavá.</p>
+        <span class="go" aria-hidden="true">→</span></a></li>
+      <li><a class="tile tone-o" href="#operacni-systemy">
+        <svg class="ill" viewBox="0 0 120 100" aria-hidden="true">
+          <rect x="8" y="10" width="44" height="80" rx="10" fill="#fff" stroke="#1D4FB8" stroke-width="4"/>
+          <rect x="68" y="10" width="44" height="80" rx="10" fill="#2F6FED"/>
+          <rect x="22" y="16" width="16" height="4" rx="2" fill="#1D4FB8"/>
+          <path d="M44 40c10-10 22-10 32 0" fill="none" stroke="#E20074" stroke-width="4" stroke-linecap="round"/>
+          <path d="M70 32l7 9-11 2z" fill="#E20074"/>
+          <path d="M76 62c-10 10-22 10-32 0" fill="none" stroke="#E20074" stroke-width="4" stroke-linecap="round"/>
+          <path d="M50 70l-7-9 11-2z" fill="#E20074"/>
+        </svg>
+        <h2>Operační systémy</h2>
+        <p>iOS a Android: účty, přenos dat a nastavení.</p>
+        <span class="go" aria-hidden="true">→</span></a></li>
+    </ul>
+    <a class="hw" href="https://ochrandisplej.cz/" target="_blank" rel="noopener">
+      <span class="hw-logo">PanzerGlass®</span>
+      <span class="hw-text"><b>Výbava pro telefony</b><span>Ochranná skla, kryty, ochrana fotoaparátu a nabíjení najdeš tady.</span></span>
+      <span class="arr" aria-hidden="true">↗</span>
+    </a>
+    <a class="hw hw-last" href="https://www.cpa.cz/mn/napoveda/?lang=2" target="_blank" rel="noopener">
+      <span class="hw-logo"><img src="data:image/png;base64,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" alt="CPA"></span>
+      <span class="hw-text"><b>Příslušenství a podpora</b><span>Nabíječky, kabely a příslušenství Anker a dalších značek. Nápovědu a podporu najdeš tady.</span></span>
+      <span class="arr" aria-hidden="true">↗</span>
+    </a>
+  </div>
+</main>
+
+<!-- TÉMA 1: KOMUNIKACE -->
+<section class="view" id="komunikace" data-n="01" data-title="Komunikace" data-next="vanocni-akce">
+  <div class="content wrap">
+    <!-- OBSAH KOMUNIKACE ZAČÁTEK -->
+    <div class="big">
+      <div class="num">Pomoct, vysvětlit, předat.</div>
+      <p>Zákazník má odcházet s vyřešenou potřebou a větší jistotou. Ty neprodáváš.</p>
+    </div>
+
+    <h2>Jak rozhovor probíhá</h2>
+    <ol class="olist">
+      <li><b>První kontakt.</b> Zákazník přijde sám, nebo ho oslovíš ty.</li>
+      <li><b>Zjištění potřeby.</b> Co chce vyřešit a jak si je s telefonem jistý.</li>
+      <li><b>Dohoda.</b> Co spolu uděláte a jak dlouho to potrvá.</li>
+      <li><b>Práce se zákazníkem.</b> Podle návodu, s jeho souhlasem a před ním. Ukaž a nech udělat.</li>
+      <li><b>Kontrola a předání.</b> Společně ověřte výsledek. Když zazní potřeba pro prodejce, předej ho kolegovi.</li>
+    </ol>
+
+    <h2>První kontakt</h2>
+    <ul class="list">
+      <li><b>Zákazník přijde sám</b><span>Přivítej ho, nech ho popsat, proč přišel, a vlastními slovy zopakuj, jak mu rozumíš.</span></li>
+      <li><b>Oslovuješ ty</b><span>První věta nabízí pomoc, ne produkt. Vyber si chvíli a místo, aby to nepůsobilo dotěrně.</span></li>
+      <li><b>Koho oslovit</b><span>Kdo čeká, drží telefon v ruce nebo se rozhlíží. Kdo spěchá nebo telefonuje, toho nech být.</span></li>
+    </ul>
+    <div class="say">
+      <p><q>Dobrý den, pomáhám tady s nastavením telefonů. Nepotřebujete s něčím poradit?</q></p>
+      <p><q>Máte nový telefon? Rád vám pomůžu přenést fotky a kontakty.</q></p>
+    </div>
+
+    <h2>Když řekne ne</h2>
+    <p>To je úplně v pořádku. Přijmi to s úsměvem, neber si to osobně a nech dveře otevřené.</p>
+    <div class="say"><p><q>Jasně. Kdybyste něco potřeboval, jsem tady u stolku.</q></p></div>
+
+    <h2>Zjištění potřeby</h2>
+    <ul class="list">
+      <li><b>Otevřené otázky</b><span>Ptát se tak, aby zákazník nemohl odpovědět jen ano nebo ne.</span></li>
+      <li><b>Naslouchej</b><span>Nech ho domluvit. Často zmíní víc, než na co se ptáš.</span></li>
+      <li><b>Shrň</b><span>Než začneš, ověř, že si rozumíte.</span></li>
+    </ul>
+    <div class="say">
+      <p><q>Co vám na telefonu nejvíc chybí nebo vadí?</q></p>
+      <p><q>Na co telefon nejčastěji používáte?</q></p>
+      <p><q>Jestli to chápu dobře, chcete přenést fotky a pak nastavit větší písmo. Je to tak?</q></p>
+    </div>
+
+    <h2>Vysvětluj jednoduše</h2>
+    <p>Přizpůsob se tomu, jak si je zákazník jistý. Místo odborných slov používej běžná.</p>
+    <ul class="list">
+      <li><b>Místo „cloud“</b><span>úložiště na internetu, kde jsou fotky v bezpečí, i když se telefon ztratí</span></li>
+      <li><b>Místo „synchronizace“</b><span>telefon a počítač mají pořád stejné kontakty</span></li>
+      <li><b>Místo „záloha“</b><span>kopie vašich dat, ze které se dají obnovit</span></li>
+    </ul>
+    <ul class="list" style="margin-top:16px">
+      <li><b>Ukaž a nech udělat</b><span>Zákazník si krok zkusí sám. Příště to zvládne bez tebe.</span></li>
+      <li><b>Komentuj, co děláš</b><span>„Teď otevírám nastavení zálohy.“ Držíš cizí telefon a zákazník má vědět, co se s ním děje.</span></li>
+    </ul>
+
+    <h2>Hranice</h2>
+    <ul class="list">
+      <li><b>Hesla a kódy zadává zákazník</b><span>Vždy. I když ti podá papírek s heslem, zdvořile odmítni.</span></li>
+      <li><b>Soukromí</b><span>Do fotek, zpráv a dalšího obsahu se nedíváš.</span></li>
+      <li><b>Co předáváš kolegovi</b><span>Tarify, slevy, pojištění, výkup, reklamace a všechno mimo návod.</span></li>
+    </ul>
+    <div class="say"><p><q>Heslo radši zadejte vy, je to vaše. Já se zatím otočím.</q></p></div>
+
+    <h2>Předání kolegovi</h2>
+    <ol class="olist">
+      <li><b>Zachyť.</b> Co zákazník řekl: starý telefon, končí mu smlouva, platí moc, shání dárek.</li>
+      <li><b>Nabídni.</b> Bez tlaku, jako možnost.</li>
+      <li><b>Představ.</b> Kolegovi před zákazníkem shrň, o co jde, ať to nemusí opakovat.</li>
+    </ol>
+    <div class="say">
+      <p><q>Teď běží vánoční akce. Kolega vám spočítá, kolik byste ušetřil. Můžu vás k němu vzít?</q></p>
+      <p><q>Martine, tady pan Novák. Má starší telefon a zajímá ho výkup a sleva na nový.</q></p>
+    </div>
+
+    <h2>Energie celou směnu</h2>
+    <p>Odmítnutí je normální součást práce. Každý nový zákazník je nový začátek, takže to předchozí neber s sebou.</p>
+    <!-- OBSAH KOMUNIKACE KONEC -->
+  </div>
+</section>
+
+<!-- TÉMA 2: VÁNOČNÍ AKCE -->
+<section class="view" id="vanocni-akce" data-n="02" data-title="Vánoční akce" data-next="operacni-systemy">
+  <div class="content wrap">
+    <!-- OBSAH VÁNOČNÍ AKCE ZAČÁTEK -->
+    <div class="big">
+      <div class="num">až 9 000 Kč</div>
+      <p>sleva na nový telefon k tarifu Next neomezeně Premium na 2 roky.</p>
+    </div>
+    <p class="muted" style="color:var(--muted)">Platí od 1. 11. 2026, některé části až do konce ledna 2027.</p>
+
+    <h2>Slevy na telefony a podmínky</h2>
+    <ul class="list">
+      <li><b>Nejvyšší sleva až 9 000 Kč</b><span>Jen při sjednání tarifu Next neomezeně Premium na dva roky.</span></li>
+      <li><b>Nižší slevy i k dalším tarifům</b><span>Pro nové zákazníky i pro stávající, kteří si prodlouží smlouvu. Čím vyšší tarif, tím vyšší sleva.</span></li>
+      <li><b>Voucher 2 000 Kč</b><span>Pro nové zákazníky vybraných tarifů pevného internetu nebo MAGENTA TV. Dá se kombinovat se slevou k tarifu.</span></li>
+      <li><b>Výkup starého telefonu s bonusem</b><span>K výkupní ceně bonus od 1 000 Kč, u vybraných modelů až 5 000 Kč. Odečte se z ceny nového zařízení a kombinuje se s dalšími slevami.</span></li>
+      <li><b>Podnikatelé</b><span>Sleva 3 000 Kč na zařízení k tarifu Next neomezeně Premium na dva roky.</span></li>
+    </ul>
+
+    <h2>Další vánoční výhody</h2>
+    <ul class="list">
+      <li><b>MAGENTA TV</b><span>K nové aktivaci S Plus nebo vyššího tarifu Netflix, Disney+ nebo HBO Max na 2 měsíce zdarma.</span></li>
+      <li><b>Předplacené karty</b><span>Nově aktivované karty 25 GB dat na týden, vyzvednout v aplikaci do 30 dnů. U týdenních neomezených dat je po třech obnovách čtvrtá zdarma.</span></li>
+      <li><b>Magenta Moments</b><span>Soutěže v aplikaci Můj T-Mobile, například o výlet do Tromsø nebo koncert ENHYPEN.</span></li>
+    </ul>
+
+    <h2>Jak s tím pracovat u stolku</h2>
+    <p>Ty neprodáváš. Když zaslechneš příležitost, zmíníš akci a předáš zákazníka kolegovi.</p>
+    <ul class="list">
+      <li><b>Starý nebo pomalý telefon</b><span>Výkup s bonusem a sleva na nový.</span></li>
+      <li><b>Končí smlouva nebo drahý tarif</b><span>Prodloužení se slevou na telefon.</span></li>
+      <li><b>Shání dárek</b><span>Telefon se slevou, voucher k internetu nebo TV.</span></li>
+    </ul>
+    <div class="say">
+      <p><q>Teď běží vánoční akce, starý telefon se dá vykoupit s bonusem a na nový je sleva.</q></p>
+      <p><q>Kolega vám spočítá, kolik byste ušetřil. Můžu vás k němu vzít?</q></p>
+    </div>
+
+    <p class="src">Přesné ceny konkrétních telefonů ověř na eshop.t-mobile.cz/vanoce nebo u kolegy na prodejně. Zdroj: tisková zpráva T-Mobile z října 2026.</p>
+    <!-- OBSAH VÁNOČNÍ AKCE KONEC -->
+  </div>
+</section>
+
+<!-- TÉMA 3: OPERAČNÍ SYSTÉMY -->
+<section class="view" id="operacni-systemy" data-n="03" data-title="Operační systémy" data-next="komunikace">
+  <div class="content wrap">
+    <!-- OBSAH OPERAČNÍ SYSTÉMY ZAČÁTEK -->
+    <ul class="topics">
+      <li><a class="topic" href="#prenos-dat">
+        <span class="n">A</span>
+        <span><h2>Přenos dat mezi telefony</h2><p>Postupy krok za krokem a prototyp na vyzkoušení.</p></span>
+        <span class="arr" aria-hidden="true">→</span></a></li>
+      <li><a class="topic" href="#ucty">
+        <span class="n">B</span>
+        <span><h2>Nastavení účtu</h2><p>Účet Apple a účet Google: postup a prototyp na vyzkoušení.</p></span>
+        <span class="arr" aria-hidden="true">→</span></a></li>
+    </ul>
+  </div>
+</section>
+
+<!-- PODSTRÁNKA: PŘENOS DAT -->
+<section class="view" id="prenos-dat" data-title="Přenos dat mezi telefony" data-parent="operacni-systemy">
+  <div class="content wrap">
+    <ul class="topics">
+      <li><a class="topic" href="#ios-ios">
+        <span class="n">1</span>
+        <span><h2>Z iPhonu na iPhone</h2><p>Rychlý start: postup a klikací prototyp.</p></span>
+        <span class="arr" aria-hidden="true">→</span></a></li>
+      <li><a class="topic" href="#android-ios">
+        <span class="n">2</span>
+        <span><h2>Z Androidu na iPhone</h2><p>Aplikace Přechod na iOS: postup a klikací prototyp.</p></span>
+        <span class="arr" aria-hidden="true">→</span></a></li>
+      <li><a class="topic" href="#ios-android">
+        <span class="n">3</span>
+        <span><h2>Z iPhonu na Android</h2><p>Kopírování dat při nastavení Androidu: postup a klikací prototyp.</p></span>
+        <span class="arr" aria-hidden="true">→</span></a></li>
+      <li><a class="topic" href="#android-android">
+        <span class="n">4</span>
+        <span><h2>Z Androidu na Android</h2><p>Kabelem nebo přes Wi-Fi: postup a klikací prototyp.</p></span>
+        <span class="arr" aria-hidden="true">→</span></a></li>
+    </ul>
+    <div class="placeholder">Další postupy doplníme.</div>
+  </div>
+</section>
+
+<!-- PODSTRÁNKA: iOS NA iOS -->
+<section class="view" id="ios-ios" data-title="Z iPhonu na iPhone" data-parent="prenos-dat">
+  <div class="content wrap">
+    <p>Funkce Rychlý start přenese data ze starého iPhonu do nového bezdrátově. Funguje, když má starý iPhone iOS 11 nebo novější.</p>
+
+    <h2>Než začneš</h2>
+    <ul class="list">
+      <li><b>Aktualizace</b><span>Oba iPhony mají nejnovější verzi iOS.</span></li>
+      <li><b>Wi-Fi a Bluetooth</b><span>Starý iPhone je na Wi-Fi a má zapnutý Bluetooth.</span></li>
+      <li><b>Nabíječka</b><span>Oba telefony jsou nabité nebo připojené k napájení.</span></li>
+      <li><b>Kódy a hesla</b><span>Zákazník zná kód starého iPhonu a heslo k Apple ID. Zadává je sám.</span></li>
+      <li><b>Čas</b><span>Řekni zákazníkovi předem, že starý telefon pár minut nepůjde používat.</span></li>
+    </ul>
+
+    <h2>Postup</h2>
+    <ol class="olist">
+      <li>Odemkni starý iPhone a nech ho na ploše. Zapni nový iPhone a polož ho vedle starého. Když nabídka Rychlý start zmizí, restartuj oba telefony.</li>
+      <li>Na starém iPhonu klepni na Pokračovat a kamerou naskenuj animaci na novém. Zákazník pak na novém iPhonu zadá kód starého.</li>
+      <li>Připoj nový iPhone k Wi-Fi nebo mobilní síti.</li>
+      <li>Pokud se objeví výzva, aktivuj mobilní službu.</li>
+      <li>Zákazník si nastaví Face ID nebo Touch ID.</li>
+      <li>Vyber způsob přenosu. <b>Z iCloudu:</b> data se stahují na pozadí a nový iPhone jde hned používat. <b>Z iPhonu:</b> oba telefony musí počkat do konce přenosu.</li>
+      <li>Nech oba telefony u sebe a na nabíječce, dokud přenos neskončí. Doba záleží na síti a množství dat.</li>
+      <li>Se zákazníkem zkontroluj fotky, kontakty a zprávy. Teprve potom řeš starý telefon.</li>
+    </ol>
+    <div class="say"><p><b>Pozor:</b> u firemních a školních iPhonů (Apple Business, Apple School Manager) Rychlý start nefunguje. Pak zbývá přenos kabelem nebo obnova ze zálohy.</p></div>
+
+    <h2>Vyzkoušej si to</h2>
+    <p>Klikací prototyp. Postupuj podle pokynů a klepej na obrazovky telefonů.</p>
+    <div class="proto" id="proto">
+      <p class="p-step"></p>
+      <p class="p-ins"></p>
+      <p class="p-fb" aria-live="polite"></p>
+      <button class="p-restart" hidden>Zkusit znovu</button>
+      <div class="phones">
+        <div class="phone"><div class="screen" data-scr="old"></div><small>Starý iPhone</small></div>
+        <div class="phone"><div class="screen" data-scr="new"></div><small>Nový iPhone</small></div>
+      </div>
+    </div>
+
+    <a class="srclink" href="https://support.apple.com/cs-cz/102659" target="_blank" rel="noopener"><span><small>Zdroj: Podpora Apple</small><b>Přenos dat do nového iPhonu pomocí funkce Rychlý start</b></span><span class="arr" aria-hidden="true">↗</span></a>
+  </div>
+</section>
+
+<!-- PODSTRÁNKA: ANDROID NA iOS -->
+<section class="view" id="android-ios" data-title="Z Androidu na iPhone" data-parent="prenos-dat">
+  <div class="content wrap">
+    <p>Data z Androidu se do nového iPhonu přenášejí aplikací Přechod na iOS z Google Play. Přenos běží během prvního nastavení iPhonu.</p>
+
+    <h2>Než začneš</h2>
+    <ul class="list">
+      <li><b>iPhone ještě nenastavený</b><span>Přenos jde jen při prvním nastavení. Už nastavený iPhone by se musel vymazat, nebo se obsah přenáší ručně.</span></li>
+      <li><b>Wi-Fi a nabíječka</b><span>Android má zapnutou Wi-Fi a oba telefony jsou připojené k napájení. USB-C kabel mezi nimi přenos zrychlí.</span></li>
+      <li><b>Místo v iPhonu</b><span>Všechno, co se přenáší, včetně obsahu micro SD karty, se musí do iPhonu vejít.</span></li>
+      <li><b>Chrome</b><span>Když chce zákazník přenést záložky, aktualizuj Chrome na Androidu.</span></li>
+    </ul>
+
+    <h2>Postup</h2>
+    <ol class="olist">
+      <li>Zapni nový iPhone, polož ho k Androidu a projdi úvodní nastavení.</li>
+      <li>Na obrazovce Rychlý start klepni na Nastavit bez druhého zařízení Apple. Může se objevit aktivace eSIM.</li>
+      <li>Na obrazovce Přenos vašich aplikací a dat zvol Z Androidu a pak Přenést pomocí aplikace.</li>
+      <li>Na Androidu otevři Přechod na iOS. Když ji zákazník nemá, naskenuje QR kód z iPhonu a stáhne ji z Google Play. Pak Pokračovat, Souhlasím a podle potřeby povolit polohu a oznámení.</li>
+      <li>Na iPhonu klepni na Pokračovat a počkej na šestimístný nebo desetimístný kód. Upozornění na slabé připojení na Androidu ignoruj.</li>
+      <li>Kód zadej na Androidu.</li>
+      <li>iPhone vytvoří dočasnou Wi-Fi síť. Na Androidu klepni na Připojit.</li>
+      <li>Se zákazníkem vyber, co se má přenést, a klepni na Pokračovat.</li>
+      <li>Nech oba telefony být, i když Android ukáže, že je hotovo. Čekej, až doběhne ukazatel na iPhonu. Na Androidu nic nespouštěj a nepřijímej hovory, jinak se obsah nepřenese.</li>
+      <li>Na Androidu klepni na Hotovo, na iPhonu na Pokračovat a dokonči nastavení. Aktivuj SIM nebo eSIM, případně přes web operátora.</li>
+      <li>Zkontroluj, že se přeneslo všechno. Hudbu, knihy a PDF je potřeba přenést ručně, chybějící aplikace stáhnout z App Storu.</li>
+    </ol>
+
+    <h2>Co se přenese</h2>
+    <p>Kontakty, zprávy a SMS, fotky a videa, alba, soubory, webové záložky, poštovní účty, WhatsApp, nahrávky Diktafonu, historie hovorů, kalendáře a některé bezplatné aplikace dostupné v obou obchodech.</p>
+
+    <h2>Když přenos nejde</h2>
+    <ul class="list">
+      <li><b>Restart</b><span>Restartuj oba telefony a zkus to znovu.</span></li>
+      <li><b>Mobilní data</b><span>Na Androidu vypni mobilní data.</span></li>
+      <li><b>Wi-Fi na Androidu</b><span>Vypni funkce, které přepínají sítě (například Smart Network Switch), a nech Android zapomenout známé Wi-Fi sítě.</span></li>
+    </ul>
+    <div class="say"><p><b>Bez aplikace:</b> s podporovaným Androidem 17 jde přenos i bez Přechodu na iOS. Na iPhonu zvol Z Androidu, pak Přenos bez aplikace a fotoaparátem Androidu naskenuj QR kód. Takhle jde přenést i eSIM.</p></div>
+
+    <h2>Vyzkoušej si to</h2>
+    <p>Klikací prototyp. Postupuj podle pokynů a klepej na obrazovky telefonů.</p>
+    <div class="proto" id="proto2">
+      <p class="p-step"></p>
+      <p class="p-ins"></p>
+      <p class="p-fb" aria-live="polite"></p>
+      <button class="p-restart" hidden>Zkusit znovu</button>
+      <div class="phones">
+        <div class="phone"><div class="screen android" data-scr="and"></div><small>Starý Android</small></div>
+        <div class="phone"><div class="screen" data-scr="ios"></div><small>Nový iPhone</small></div>
+      </div>
+    </div>
+
+    <a class="srclink" href="https://support.apple.com/cs-cz/118670" target="_blank" rel="noopener"><span><small>Zdroj: Podpora Apple</small><b>Přechod z Androidu na iPhone nebo iPad</b></span><span class="arr" aria-hidden="true">↗</span></a>
+  </div>
+</section>
+
+<!-- PODSTRÁNKA: iOS NA ANDROID -->
+<section class="view" id="ios-android" data-title="Z iPhonu na Android" data-parent="prenos-dat">
+  <div class="content wrap">
+    <p>Nový Android nabídne zkopírování dat z iPhonu už při prvním nastavení. Podle telefonu to jde třemi způsoby:</p>
+    <ul class="list">
+      <li><b>Upgradovaný přenos</b><span>Android ukáže QR kód a přenese nejvíc dat. Pixel 8 a novější a některé nové Samsungy a Viva s Androidem 17.</span></li>
+      <li><b>Kabelem</b><span>Nabíjecí kabel od iPhonu, případně s adaptérem na USB-C.</span></li>
+      <li><b>Aplikace Android Switch</b><span>Bezdrátově, iPhone musí mít iOS 15 nebo novější. Samsungy mají vlastní Smart Switch.</span></li>
+    </ul>
+
+    <h2>Než začneš</h2>
+    <ul class="list">
+      <li><b>Vypni iMessage</b><span>Na iPhonu v Nastavení › Zprávy. Jinak může zákazník přestávat dostávat SMS.</span></li>
+      <li><b>Wi-Fi a baterie</b><span>iPhone je na Wi-Fi a oba telefony jsou nabité.</span></li>
+      <li><b>Odemčený iPhone</b><span>Zákazník ho odemkne sám. Pomůže vypnout automatické zamykání.</span></li>
+      <li><b>Místo a čas</b><span>Zkontroluj úložiště v novém telefonu. Přenos obvykle trvá do 30 minut, s hodně daty i několik hodin.</span></li>
+      <li><b>Firemní iPhone</b><span>U iPhonu spravovaného firmou nebo školou se nemusí přenést všechno.</span></li>
+    </ul>
+
+    <h2>Postup</h2>
+    <ol class="olist">
+      <li>Zapni nový Android a projdi první obrazovky nastavení.</li>
+      <li>Když se zeptá na kopírování dat z jiného zařízení, vyber iPhone nebo iPad.</li>
+      <li>Když se objeví QR kód, naskenuj ho fotoaparátem iPhonu a telefony se spárují. Když se neobjeví, připoj Android k Wi-Fi, přihlas Google účet, vlož SIM a pokračuj kabelem nebo přes Android Switch.</li>
+      <li>Se zákazníkem vyber data ke zkopírování. Během přenosu jde pokračovat v nastavení.</li>
+      <li>Nech telefony propojené až do konce nastavení, i když přijde výzva k přenosu eSIM.</li>
+      <li>Když zákazník používá WhatsApp, přijde oznámení ke zkopírování historie chatů. Klepni na něj a postupuj podle pokynů.</li>
+      <li>Zkontroluj SMS, fotky a videa.</li>
+    </ol>
+
+    <h2>Kabelem</h2>
+    <ol class="olist">
+      <li>Na výzvu zapoj nabíjecí kabel do iPhonu a druhý konec (případně přes adaptér) do Androidu.</li>
+      <li>Na iPhonu klepni na Důvěřovat. Zákazník zadá kód.</li>
+      <li>Na Androidu vyber data a klepni na Kopírovat.</li>
+    </ol>
+
+    <div class="say"><p><b>Co se nepřenese:</b> fotky a videa uložené jen v iCloudu (přenášejí se zvlášť do Fotek Google), placené aplikace a nákupy v aplikacích, záložky ze Safari a zdravotní údaje.</p></div>
+
+    <h2>Vyzkoušej si to</h2>
+    <p>Klikací prototyp upgradovaného přenosu s QR kódem. Postupuj podle pokynů a klepej na obrazovky telefonů.</p>
+    <div class="proto" id="proto3">
+      <p class="p-step"></p>
+      <p class="p-ins"></p>
+      <p class="p-fb" aria-live="polite"></p>
+      <button class="p-restart" hidden>Zkusit znovu</button>
+      <div class="phones">
+        <div class="phone"><div class="screen" data-scr="ios"></div><small>Starý iPhone</small></div>
+        <div class="phone"><div class="screen android" data-scr="and"></div><small>Nový Android</small></div>
+      </div>
+    </div>
+
+    <a class="srclink" href="https://support.google.com/android/answer/13626960?hl=cs" target="_blank" rel="noopener"><span><small>Zdroj: Nápověda Android</small><b>Kopírování aplikací a dat z iPhonu do nového zařízení Android</b></span><span class="arr" aria-hidden="true">↗</span></a>
+  </div>
+</section>
+
+<!-- PODSTRÁNKA: ANDROID NA ANDROID -->
+<section class="view" id="android-android" data-title="Z Androidu na Android" data-parent="prenos-dat">
+  <div class="content wrap">
+    <p>Při nastavení nového Androidu jde zkopírovat aplikace a data ze starého. Doporučený je kabel, bez něj to jde přes Wi-Fi. Obě cesty přenesou stejná data. Samsungy mají navíc vlastní Smart Switch.</p>
+
+    <h2>Než začneš</h2>
+    <ul class="list">
+      <li><b>Přenos jde jen jednou</b><span>Udělej ho při prvním nastavení, později už možnost nemusí být.</span></li>
+      <li><b>Internet</b><span>Bez internetu to nejde. Ideálně oba telefony na Wi-Fi.</span></li>
+      <li><b>Baterie a SIM</b><span>Oba telefony nabité, po ruce nástroj na vysunutí SIM.</span></li>
+      <li><b>Kabel</b><span>Musí jít zapojit do obou telefonů, jinak adaptér nebo přenos přes Wi-Fi.</span></li>
+      <li><b>Místo a čas</b><span>Zkontroluj úložiště. Přenos trvá od pár minut po několik hodin.</span></li>
+      <li><b>WhatsApp</b><span>Na starém telefonu zapni zálohování WhatsAppu. Chaty se pak obnoví po přihlášení na novém.</span></li>
+      <li><b>Firemní telefon</b><span>U telefonu spravovaného firmou nebo školou se nemusí přenést všechno.</span></li>
+    </ul>
+
+    <h2>Postup kabelem</h2>
+    <ol class="olist">
+      <li>Zapni nový telefon a klepni na Začít.</li>
+      <li>Připoj ho k Wi-Fi, případně vlož SIM nebo stáhni eSIM.</li>
+      <li>Na výzvu ke zkopírování aplikací a dat klepni na Kopírovat a propoj telefony kabelem.</li>
+      <li>Na starém telefonu klepni na Kopírovat. Pomůže, když je zákazník přihlášený ke Google účtu.</li>
+      <li>Vyber, co se má zkopírovat, a klepni na Kopírovat.</li>
+      <li>Nový telefon ukazuje Kopírování dat, starý po dokončení Kopírování je dokončeno. Trvá to od pár minut po hodinu.</li>
+    </ol>
+
+    <h2>Postup přes Wi-Fi</h2>
+    <ol class="olist">
+      <li>Na novém telefonu klepni na výzvu ke kabelu na Nemáte kabel? a pak na Další.</li>
+      <li>Na starém telefonu otevři aplikaci Google a vyhledej nastavení zařízení.</li>
+      <li>Klepni na Další a na obrazovce Začínáme znovu na Další.</li>
+      <li>Zkontroluj, že se tvary a čísla na obou telefonech shodují.</li>
+      <li>Klepni na Další a Kopírovat. Zákazník zadá PIN starého telefonu.</li>
+      <li>Vyber data a počkej na zprávu o dokončení.</li>
+    </ol>
+
+    <div class="say"><p><b>Starý telefon není po ruce?</b> Jde obnovit záloha z Google účtu. Na výzvu ke kabelu klepni na Kabel nepasuje nebo Nemáte adaptér?, vyber zálohu, zákazník zadá PIN původního telefonu, vyber data a klepni na Obnovit. Funguje jen tehdy, když měl starý telefon zapnuté zálohování.</p></div>
+
+    <h2>Co se přenese</h2>
+    <p>Aplikace a část jejich dat, hudba, fotky, videa, kontakty, SMS i s přílohami, tapeta, historie hovorů a většina nastavení.</p>
+    <h2>Co se nepřenese</h2>
+    <p>Stažené soubory (třeba PDF), obsah skrytých složek, aplikace mimo Google Play, data aplikací bez zálohování, jiné než Google účty, kontakty a kalendáře synchronizované mimo Google, vyzváněcí melodie a některá nastavení.</p>
+
+    <h2>Vyzkoušej si to</h2>
+    <p>Klikací prototyp přenosu přes Wi-Fi, kde se pracuje na obou telefonech. Postupuj podle pokynů a klepej na obrazovky.</p>
+    <div class="proto" id="proto4">
+      <p class="p-step"></p>
+      <p class="p-ins"></p>
+      <p class="p-fb" aria-live="polite"></p>
+      <button class="p-restart" hidden>Zkusit znovu</button>
+      <div class="phones">
+        <div class="phone"><div class="screen android" data-scr="old"></div><small>Starý Android</small></div>
+        <div class="phone"><div class="screen android" data-scr="new"></div><small>Nový Android</small></div>
+      </div>
+    </div>
+
+    <a class="srclink" href="https://support.google.com/android/answer/13761358?hl=cs" target="_blank" rel="noopener"><span><small>Zdroj: Nápověda Android</small><b>Kopírování aplikací a dat ze zařízení Android do nového zařízení Android</b></span><span class="arr" aria-hidden="true">↗</span></a>
+  </div>
+</section>
+
+<!-- PODSTRÁNKA: ÚČTY -->
+<section class="view" id="ucty" data-title="Nastavení účtu" data-parent="operacni-systemy">
+  <div class="content wrap">
+    <ul class="topics">
+      <li><a class="topic" href="#ucet-apple">
+        <span class="n">1</span>
+        <span><h2>Účet Apple</h2><p>Nový účet při nastavení iPhonu.</p></span>
+        <span class="arr" aria-hidden="true">→</span></a></li>
+      <li><a class="topic" href="#ucet-google">
+        <span class="n">2</span>
+        <span><h2>Účet Google</h2><p>Nový účet na telefonu s Androidem.</p></span>
+        <span class="arr" aria-hidden="true">→</span></a></li>
+    </ul>
+  </div>
+</section>
+
+<!-- PODSTRÁNKA: ÚČET APPLE -->
+<section class="view" id="ucet-apple" data-title="Účet Apple" data-parent="ucty">
+  <div class="content wrap">
+    <p>Účet Apple (dřív Apple ID) je potřeba pro iCloud, App Store a další služby Apple. Nejsnazší je založit ho rovnou při nastavení nového iPhonu.</p>
+
+    <h2>Než začneš</h2>
+    <ul class="list">
+      <li><b>Už účet má?</b><span>Zeptej se, jestli zákazník neměl účet Apple dřív. Nový zakládej, jen když opravdu žádný nemá.</span></li>
+      <li><b>E-mail po ruce</b><span>Zákazník musí mít přístup ke svému e-mailu, přijde na něj ověřovací kód. Když e-mail nemá, jde získat zdarma adresu na iCloudu.</span></li>
+      <li><b>Telefonní číslo</b><span>Slouží k ověření identity a obnově účtu.</span></li>
+      <li><b>Heslo zadává zákazník</b><span>Ty ho nevidíš a nezapisuješ. Doporuč mu, ať si ho bezpečně poznamená.</span></li>
+    </ul>
+
+    <h2>Postup při nastavení iPhonu</h2>
+    <ol class="olist">
+      <li>Na obrazovce přihlášení klepni na Zapomněli jste heslo nebo nemáte účet?</li>
+      <li>Klepni na Vytvořit bezplatný účet Apple.</li>
+      <li>Zákazník vybere datum narození a zadá jméno. Pokračovat.</li>
+      <li>Zadá e-mail, kterým se bude přihlašovat. Bez e-mailu klepni na Nemáte e-mailovou adresu? a získá adresu na iCloudu.</li>
+      <li>Podle pokynů ověří e-mail, vytvoří silné heslo, nastaví zemi a dvoufaktorové ověřování.</li>
+    </ol>
+    <div class="say"><p><b>Platební metoda:</b> iPhone se může zeptat na kartu. Jde zvolit Žádná a nic se neúčtuje, dokud zákazník nic nekoupí.</p><p><b>Později:</b> účet jde založit i v App Storu přes tlačítko Můj účet a Vytvořit nový účet Apple.</p></div>
+
+    <h2>Vyzkoušej si to</h2>
+    <p>Klikací prototyp. Postupuj podle pokynů a klepej na obrazovku iPhonu.</p>
+    <div class="proto" id="proto5">
+      <p class="p-step"></p>
+      <p class="p-ins"></p>
+      <p class="p-fb" aria-live="polite"></p>
+      <button class="p-restart" hidden>Zkusit znovu</button>
+      <div class="phones one">
+        <div class="phone"><div class="screen" data-scr="one"></div><small>Nový iPhone</small></div>
+      </div>
+    </div>
+
+    <a class="srclink" href="https://support.apple.com/cs-cz/108647" target="_blank" rel="noopener"><span><small>Zdroj: Podpora Apple</small><b>Postup vytvoření nového účtu Apple</b></span><span class="arr" aria-hidden="true">↗</span></a>
+  </div>
+</section>
+
+<!-- PODSTRÁNKA: ÚČET GOOGLE -->
+<section class="view" id="ucet-google" data-title="Účet Google" data-parent="ucty">
+  <div class="content wrap">
+    <p>Účet Google je potřeba pro Google Play, Gmail, YouTube, Disk a zálohování telefonu. Na Androidu se zakládá při nastavení nebo později v Nastavení.</p>
+
+    <h2>Než začneš</h2>
+    <ul class="list">
+      <li><b>Už účet má?</b><span>Kdo někdy používal Gmail nebo YouTube, účet Google už má. Pak stačí přihlásit.</span></li>
+      <li><b>Nemusí to být Gmail</b><span>Účet jde založit i na stávající e-mail od jiného poskytovatele.</span></li>
+      <li><b>Heslo zadává zákazník</b><span>Ty ho nevidíš a nezapisuješ.</span></li>
+    </ul>
+
+    <h2>Postup</h2>
+    <ol class="olist">
+      <li>Na obrazovce přihlášení ke Googlu klepni na Vytvořit účet.</li>
+      <li>Vyber Pro osobní použití.</li>
+      <li>Zákazník zadá jméno, datum narození a pohlaví.</li>
+      <li>Vybere navrženou adresu Gmailu, vytvoří vlastní, nebo použije stávající e-mail.</li>
+      <li>Zadá a potvrdí heslo.</li>
+      <li>Přidá a ověří telefonní číslo. Je to volitelné, ale doporučené.</li>
+      <li>Odsouhlasí podmínky a účet je hotový.</li>
+    </ol>
+    <div class="say"><p><b>Obnovení účtu:</b> doporuč zákazníkovi telefonní číslo a záložní e-mail pro obnovení. Když zapomene heslo, dostane se k účtu zpátky.</p><p><b>Jméno je zabrané:</b> Google nedovolí adresu, která už existuje nebo je jiné moc podobná. Zkuste jinou variantu.</p></div>
+
+    <h2>Vyzkoušej si to</h2>
+    <p>Klikací prototyp. Postupuj podle pokynů a klepej na obrazovku telefonu.</p>
+    <div class="proto" id="proto6">
+      <p class="p-step"></p>
+      <p class="p-ins"></p>
+      <p class="p-fb" aria-live="polite"></p>
+      <button class="p-restart" hidden>Zkusit znovu</button>
+      <div class="phones one">
+        <div class="phone"><div class="screen android" data-scr="one"></div><small>Nový Android</small></div>
+      </div>
+    </div>
+
+    <a class="srclink" href="https://support.google.com/accounts/answer/27441?hl=cs-cz&amp;co=GENIE.Platform%3DAndroid" target="_blank" rel="noopener"><span><small>Zdroj: Nápověda Účet Google</small><b>Vytvoření účtu Google</b></span><span class="arr" aria-hidden="true">↗</span></a>
+  </div>
+</section>
+
+<script>
+(function(){
+  var topics = document.querySelectorAll("section.view");
+
+  // Doplnění hlavičky do každého tématu a podstránky
+  topics.forEach(function(sec){
+    var parentId = sec.getAttribute("data-parent");
+    var parent = parentId ? document.getElementById(parentId) : null;
+    var bar = document.createElement("div");
+    bar.className = "bar";
+    var head = document.createElement("header");
+    head.className = "thead";
+    var root = sec;
+    while(root.getAttribute("data-parent")) root = document.getElementById(root.getAttribute("data-parent"));
+    sec.classList.add("tone-" + ({"komunikace":"k","vanocni-akce":"v","operacni-systemy":"o"}[root.id] || "k"));
+    if(parent){
+      bar.innerHTML = '<div class="wrap"><a class="back" href="#' + parent.id + '"><span aria-hidden="true">←</span>' + parent.getAttribute("data-title") + '</a></div>';
+      head.innerHTML = '<div class="wrap"><p class="n">' + parent.getAttribute("data-title") + '</p><h1>' + sec.getAttribute("data-title") + '</h1></div>';
+    } else {
+      bar.innerHTML = '<div class="wrap"><a class="back" href="#"><span aria-hidden="true">←</span>Témata</a><span class="pos">' + sec.getAttribute("data-n") + ' / 03</span></div>';
+      head.innerHTML = '<div class="wrap"><h1>' + sec.getAttribute("data-title") + '</h1></div>';
+    }
+    sec.insertBefore(head, sec.firstChild);
+    sec.insertBefore(bar, sec.firstChild);
+    var next = document.getElementById(sec.getAttribute("data-next"));
+    if(next){
+      var foot = document.createElement("div");
+      foot.className = "wrap";
+      foot.innerHTML = '<a class="next" href="#' + next.id + '"><span><small>Další téma</small><b>' + next.getAttribute("data-title") + '</b></span><span class="arr" aria-hidden="true">→</span></a>';
+      sec.appendChild(foot);
+    }
+  });
+
+  var titles = {"": "Mobilní Wellness"};
+  topics.forEach(function(s){ titles[s.id] = s.getAttribute("data-title") + " – Mobilní Wellness"; });
+
+  function show(idArg){
+    var id = typeof idArg === "string" ? idArg : location.hash.replace("#","");
+    var target = id && document.getElementById(id) && document.getElementById(id).tagName === "SECTION" ? id : "";
+    document.querySelectorAll(".view").forEach(function(v){ v.classList.remove("view-on"); });
+    document.getElementById(target || "home").classList.add("view-on");
+    document.title = titles[target] || titles[""];
+    window.scrollTo(0,0);
+  }
+  window.addEventListener("hashchange", function(){ show(); });
+
+  // Navigace kliknutím: neodkládá se na výchozí chování odkazů, které prohlížeč artefaktů může zachytit
+  window.addEventListener("click", function(e){
+    var a = e.target.closest ? e.target.closest('a[href^="#"]') : null;
+    if(!a) return;
+    e.preventDefault();
+    e.stopPropagation();
+    var id = a.getAttribute("href").slice(1);
+    show(id);
+    try{ if(location.hash.replace("#","") !== id) location.hash = id; }catch(err){}
+  }, true);
+
+  show();
+})();
+</script>
+<script>
+// Klikací prototyp Rychlého startu
+(function(){
+  var root = document.getElementById('proto');
+  if(!root) return;
+  var oldS = root.querySelector('[data-scr="old"]'), newS = root.querySelector('[data-scr="new"]');
+  var stepEl = root.querySelector('.p-step'), insEl = root.querySelector('.p-ins'), fb = root.querySelector('.p-fb'), restart = root.querySelector('.p-restart');
+  var cols = ['#FF9F0A','#30D158','#0A84FF','#FF375F','#BF5AF2','#64D2FF'];
+  var cur = 0, keys = 0, choice = 'iphone', busy = false, iv = null;
+
+  function home(note){
+    var h = '<div class="s-home">';
+    for(var i = 0; i < 12; i++) h += '<i style="background:' + cols[i % 6] + '"></i>';
+    h += '</div>';
+    if(note) h += '<div class="s-note">' + note + '</div>';
+    return h;
+  }
+  function bar(){ return '<div class="s-bar"><i></i></div>'; }
+
+  var S = [
+    {n:1, expect:'power', hint:'Klepni na obrazovku nového iPhonu.',
+     ins:'Starý iPhone je odemčený, na Wi-Fi a se zapnutým Bluetooth. Zapni nový iPhone: klepni na jeho obrazovku.',
+     old:function(){ return home(); },
+     neu:function(){ return '<div class="s-off" data-act="power"><span>Klepni pro zapnutí</span></div>'; }},
+    {n:2, expect:'continue', hint:'Na starém iPhonu klepni na Pokračovat.',
+     ins:'Nový iPhone leží vedle starého. Na starém se objevila nabídka Rychlý start. Klepni na Pokračovat.',
+     old:function(){ return home() + '<div class="s-sheet"><b>Nastavit nový iPhone</b><p>Použít Apple ID k nastavení nového iPhonu.</p><button class="s-btn" data-act="continue">Pokračovat</button></div>'; },
+     neu:function(){ return '<div class="s-center"><h4>Rychlý start</h4><p>Přibližte starý iPhone</p></div>'; }},
+    {n:3, expect:'scan', hint:'Na starém iPhonu klepni na Naskenovat.',
+     ins:'Na novém iPhonu se objevila animace. Naskenuj ji kamerou starého iPhonu: klepni na Naskenovat.',
+     old:function(){ return '<div class="s-cam"><div class="s-frame"></div><p>Umístěte nový iPhone do rámečku</p><button class="s-btn" data-act="scan">Naskenovat</button></div>'; },
+     neu:function(){ return '<div class="s-center"><div class="s-orb"></div></div>'; }},
+    {n:4, expect:'key', hint:'Zadej kód na klávesnici nového iPhonu.',
+     ins:'Zákazník na novém iPhonu zadá kód ze starého iPhonu. Ťukni šest čísel.',
+     old:function(){ return '<div class="s-center"><p>Dokončete nastavení na novém iPhonu</p></div>'; },
+     neu:function(){
+       var d = '';
+       for(var i = 0; i < 6; i++) d += '<i class="' + (i < keys ? 'on' : '') + '"></i>';
+       var k = '';
+       ['1','2','3','4','5','6','7','8','9','','0',''].forEach(function(c){ k += c ? '<button data-act="key">' + c + '</button>' : '<span></span>'; });
+       return '<div class="s-code"><p>Zadejte kód ze starého iPhonu</p><div class="s-dots">' + d + '</div><div class="s-keys">' + k + '</div></div>';
+     }},
+    {n:5, expect:'wifi', hint:'Na novém iPhonu vyber síť Domácí Wi-Fi.',
+     ins:'Připoj nový iPhone k Wi-Fi. Klepni na síť Domácí Wi-Fi.',
+     old:function(){ return '<div class="s-center"><p>Dokončete nastavení na novém iPhonu</p></div>'; },
+     neu:function(){ return '<div class="s-list"><h4>Vyberte síť Wi-Fi</h4><button data-act="wifi">Domácí Wi-Fi <small>zabezpečená</small></button><button data-act="other">Kavárna_Free <small>otevřená</small></button><button class="s-link" data-act="wifi">Použít mobilní data</button></div>'; }},
+    {n:6, expect:'faceid', hint:'Na novém iPhonu klepni na Pokračovat.',
+     ins:'Zákazník si nastaví Face ID. Klepni na Pokračovat.',
+     old:function(){ return '<div class="s-center"><p>Dokončete nastavení na novém iPhonu</p></div>'; },
+     neu:function(){ return '<div class="s-center"><h4>Face ID</h4><p>Odemykejte iPhone pohledem.</p><button class="s-btn" data-act="faceid">Pokračovat</button></div>'; }},
+    {n:7, expect:'choice', hint:'Na novém iPhonu vyber jednu z možností přenosu.',
+     ins:'Vyber, jak přenést data. Obě možnosti jsou správně, liší se v tom, kdy jde nový iPhone používat.',
+     old:function(){ return '<div class="s-center"><p>Dokončete nastavení na novém iPhonu</p></div>'; },
+     neu:function(){ return '<div class="s-choice"><h4>Přenos dat</h4><button data-act="choice" data-c="iphone"><b>Přenést z iPhonu</b>Oba telefony počkají do konce.</button><button data-act="choice" data-c="icloud"><b>Stáhnout z iCloudu</b>Data se stáhnou na pozadí.</button></div>'; }},
+    {n:8, expect:null, auto:true,
+     ins:function(){ return choice === 'iphone' ? 'Probíhá přenos. Nech oba telefony u sebe a na nabíječce.' : 'Nový iPhone se obnovuje z iCloudu. Jde ho používat hned, data se stahují na pozadí.'; },
+     old:function(){ return choice === 'iphone' ? '<div class="s-center"><p>Přenos do nového iPhonu</p>' + bar() + '</div>' : home(); },
+     neu:function(){ return choice === 'iphone' ? '<div class="s-center"><p>Přenos dat z iPhonu</p>' + bar() + '</div>' : home('Obnovování z iCloudu' + bar()); }},
+    {n:0, expect:null,
+     ins:function(){ return choice === 'iphone' ? 'Hotovo! Teď se zákazníkem zkontroluj fotky, kontakty a zprávy.' : 'Hotovo! Nech nový iPhone na Wi-Fi a nabíječce, ať se všechno dostáhne. Pak se zákazníkem zkontroluj fotky a kontakty.'; },
+     old:function(){ return home(); },
+     neu:function(){ return home('Vítejte v novém iPhonu'); }}
+  ];
+
+  function render(){
+    var st = S[cur];
+    stepEl.textContent = st.n ? 'Krok ' + st.n + ' z 8' : 'Hotovo';
+    insEl.textContent = typeof st.ins === 'function' ? st.ins() : st.ins;
+    oldS.innerHTML = st.old();
+    newS.innerHTML = st.neu();
+    if(st.expect){
+      root.querySelectorAll('[data-act="' + st.expect + '"]').forEach(function(el){ el.classList.add('tgt'); });
+    }
+    restart.hidden = !!st.n;
+  }
+  function go(i, msg){
+    cur = i; busy = false;
+    fb.className = 'p-fb';
+    fb.textContent = msg || '';
+    render();
+    if(S[cur].auto) runProgress();
+  }
+  function runProgress(){
+    var p = 0;
+    busy = true;
+    clearInterval(iv);
+    iv = setInterval(function(){
+      p += 4;
+      root.querySelectorAll('.s-bar i').forEach(function(b){ b.style.width = Math.min(p, 100) + '%'; });
+      if(p >= 100){ clearInterval(iv); setTimeout(function(){ go(S.length - 1); }, 400); }
+    }, 160);
+  }
+
+  root.addEventListener('click', function(e){
+    if(busy) return;
+    var inPhone = e.target.closest('.screen');
+    if(!inPhone) return;
+    var st = S[cur];
+    if(!st.expect) return;
+    var a = e.target.closest('[data-act]');
+    if(!a || a.getAttribute('data-act') !== st.expect){
+      fb.className = 'p-fb bad';
+      fb.textContent = 'Tady ne. ' + st.hint;
+      return;
+    }
+    if(st.expect === 'power'){
+      busy = true;
+      newS.innerHTML = '<div class="s-center s-hello">Ahoj</div>';
+      setTimeout(function(){ go(1); }, 900);
+    } else if(st.expect === 'key'){
+      keys++;
+      fb.className = 'p-fb'; fb.textContent = '';
+      render();
+      if(keys >= 6){ busy = true; setTimeout(function(){ go(4); }, 350); }
+    } else if(st.expect === 'faceid'){
+      busy = true;
+      newS.innerHTML = '<div class="s-center"><div class="s-ring"></div><p>Pomalu otáčejte hlavou</p></div>';
+      setTimeout(function(){ go(6, 'Face ID je nastavené.'); }, 1400);
+    } else if(st.expect === 'choice'){
+      choice = a.getAttribute('data-c');
+      go(7, choice === 'iphone' ? 'Přenos z iPhonu: oba telefony musí počkat do konce přenosu.' : 'Stažení z iCloudu: nový iPhone jde hned používat, data se stahují na pozadí.');
+    } else {
+      go(cur + 1);
+    }
+  });
+  restart.addEventListener('click', function(){ keys = 0; choice = 'iphone'; clearInterval(iv); go(0); });
+  go(0);
+})();
+</script>
+<script>
+// Klikací prototyp Přechod na iOS
+(function(){
+  var root = document.getElementById('proto2');
+  if(!root) return;
+  var aS = root.querySelector('[data-scr="and"]'), iS = root.querySelector('[data-scr="ios"]');
+  var stepEl = root.querySelector('.p-step'), insEl = root.querySelector('.p-ins'), fb = root.querySelector('.p-fb'), restart = root.querySelector('.p-restart');
+  var cols = ['#4285F4','#EA4335','#FBBC05','#34A853','#A142F4','#24C1E0'];
+  var icols = ['#FF9F0A','#30D158','#0A84FF','#FF375F','#BF5AF2','#64D2FF'];
+  var cur = 0, keys = 0, busy = false, iv = null;
+
+  function andHome(withApp){
+    var h = '<div class="a-home">';
+    for(var i = 0; i < 11; i++) h += '<i style="background:' + cols[i % 6] + '"></i>';
+    h += withApp ? '<button class="a-app" data-act="openapp"><i></i><span>Přechod na iOS</span></button>' : '<i style="background:' + cols[5] + '"></i>';
+    return h + '</div>';
+  }
+  function iHome(note){
+    var h = '<div class="s-home">';
+    for(var i = 0; i < 12; i++) h += '<i style="background:' + icols[i % 6] + '"></i>';
+    h += '</div>';
+    if(note) h += '<div class="s-note">' + note + '</div>';
+    return h;
+  }
+  function bar(){ return '<div class="s-bar"><i></i></div>'; }
+  function iWait(t){ return '<div class="s-center"><h4>Přechod z Androidu</h4><p>' + t + '</p></div>'; }
+
+  var S = [
+    {n:1, expect:'power', hint:'Klepni na obrazovku nového iPhonu.',
+     ins:'Zapni nový iPhone a polož ho k Androidu: klepni na obrazovku iPhonu.',
+     a:function(){ return andHome(false); },
+     i:function(){ return '<div class="s-off" data-act="power"><span>Klepni pro zapnutí</span></div>'; }},
+    {n:2, expect:'noapple', hint:'Na iPhonu klepni na Nastavit bez druhého zařízení Apple.',
+     ins:'Na iPhonu se objevil Rychlý start. Klepni na Nastavit bez druhého zařízení Apple.',
+     a:function(){ return andHome(false); },
+     i:function(){ return '<div class="s-center"><h4>Rychlý start</h4><p>Přibližte jiný iPhone nebo iPad</p><button class="s-btn" data-act="noapple">Nastavit bez druhého zařízení Apple</button></div>'; }},
+    {n:3, expect:'fromandroid', hint:'Na iPhonu vyber Z Androidu.',
+     ins:'Na obrazovce Přenos vašich aplikací a dat zvol Z Androidu.',
+     a:function(){ return andHome(false); },
+     i:function(){ return '<div class="s-list"><h4>Přenos vašich aplikací a dat</h4><button data-act="other">Z iCloud zálohy</button><button data-act="other">Z Macu nebo PC</button><button data-act="fromandroid">Z Androidu</button><button data-act="other">Nepřenášet nic</button></div>'; }},
+    {n:4, expect:'withapp', hint:'Vyber Přenést pomocí aplikace. Bez aplikace to jde jen s podporovaným Androidem 17.',
+     ins:'Vyber Přenést pomocí aplikace.',
+     a:function(){ return andHome(false); },
+     i:function(){ return '<div class="s-choice"><h4>Z Androidu</h4><button data-act="withapp"><b>Přenést pomocí aplikace</b>Přechod na iOS z Google Play</button><button data-act="noapp"><b>Přenos bez aplikace</b>Jen podporovaný Android 17</button></div>'; }},
+    {n:5, expect:'openapp', hint:'Na Androidu klepni na ikonu Přechod na iOS.',
+     ins:'Na Androidu otevři aplikaci Přechod na iOS.',
+     a:function(){ return andHome(true); },
+     i:function(){ return iWait('Otevřete na Androidu aplikaci Přechod na iOS'); }},
+    {n:6, expect:'agree', hint:'Na Androidu klepni na Souhlasím.',
+     ins:'Zákazník si přečte smluvní podmínky. Klepni na Souhlasím. Polohu a oznámení pak povol podle potřeby.',
+     a:function(){ return '<div class="a-page"><h4>Smluvní podmínky</h4><p>Přečtěte si podmínky používání aplikace Přechod na iOS.</p><div class="a-row"><button class="a-ghost" data-act="other">Nesouhlasím</button><button class="a-btn" data-act="agree">Souhlasím</button></div></div>'; },
+     i:function(){ return iWait('Otevřete na Androidu aplikaci Přechod na iOS'); }},
+    {n:7, expect:'ioscont', hint:'Na iPhonu klepni na Pokračovat.',
+     ins:'Na iPhonu klepni na Pokračovat a počkej na jednorázový kód.',
+     a:function(){ return '<div class="a-page"><h4>Najít kód</h4><p>Na iPhonu klepněte na Pokračovat. Zobrazí se kód.</p></div>'; },
+     i:function(){ return '<div class="s-center"><h4>Přechod z Androidu</h4><p>Otevřete na Androidu aplikaci Přechod na iOS</p><button class="s-btn" data-act="ioscont">Pokračovat</button></div>'; }},
+    {n:8, expect:'key', hint:'Zadej kód na klávesnici Androidu.',
+     ins:'Na iPhonu se objevil kód 482 913. Zadej ho na Androidu: ťukni šest čísel.',
+     a:function(){
+       var d = '';
+       for(var i = 0; i < 6; i++) d += '<i class="' + (i < keys ? 'on' : '') + '"></i>';
+       var k = '';
+       ['1','2','3','4','5','6','7','8','9','','0',''].forEach(function(c){ k += c ? '<button data-act="key">' + c + '</button>' : '<span></span>'; });
+       return '<div class="s-code"><p>Zadejte kód z iPhonu</p><div class="s-dots">' + d + '</div><div class="s-keys">' + k + '</div></div>';
+     },
+     i:function(){ return '<div class="s-center"><p>Zadejte tento kód na Androidu</p><div class="s-bigcode">482 913</div></div>'; }},
+    {n:9, expect:'join', hint:'Na Androidu klepni na Připojit.',
+     ins:'iPhone vytvořil dočasnou Wi-Fi síť. Na Androidu klepni na Připojit.',
+     a:function(){ return andHome(false) + '<div class="a-dim"></div><div class="a-dialog"><b>Připojit k síti iPhonu?</b><p>Dočasná síť pro přenos dat.</p><div class="a-row"><button class="a-ghost" data-act="other">Zrušit</button><button class="a-btn" data-act="join">Připojit</button></div></div>'; },
+     i:function(){ return iWait('Připojování…'); }},
+    {n:10, expect:'sel', hint:'Na Androidu klepni na Pokračovat.',
+     ins:'Se zákazníkem vyber, co se má přenést, a klepni na Pokračovat.',
+     a:function(){ return '<div class="a-page"><h4>Přenos dat</h4><div class="a-checks"><span>Kontakty</span><span>Zprávy</span><span>Fotky a videa</span><span>Kalendáře</span><span>WhatsApp</span></div><div class="a-row"><button class="a-btn" data-act="sel">Pokračovat</button></div></div>'; },
+     i:function(){ return iWait('Čekání na výběr dat…'); }},
+    {n:11, expect:null, auto:true,
+     ins:'Probíhá přenos. Nech oba telefony být, i když Android ukáže hotovo. Čekej, až doběhne iPhone. Na Androidu nic nespouštěj a nepřijímej hovory.',
+     a:function(){ return '<div class="s-center"><p>Odesílání dat</p><div class="s-bar" data-speed="2"><i></i></div></div>'; },
+     i:function(){ return '<div class="s-center"><p>Přenos z Androidu</p>' + bar() + '</div>'; }},
+    {n:12, expect:'done', hint:'Na Androidu klepni na Hotovo.',
+     ins:'Přenos skončil. Na Androidu klepni na Hotovo.',
+     a:function(){ return '<div class="a-page"><h4>Přenos dokončen</h4><p>Data jsou v novém iPhonu.</p><div class="a-row"><button class="a-btn" data-act="done">Hotovo</button></div></div>'; },
+     i:function(){ return '<div class="s-center"><h4>Přenos dokončen</h4><p>Pokračujte v nastavení iPhonu</p></div>'; }},
+    {n:0, expect:null,
+     ins:'Hotovo! Dokonči na iPhonu nastavení a aktivuj SIM nebo eSIM. Se zákazníkem zkontroluj obsah. Hudbu, knihy a PDF je potřeba přenést ručně, aplikace stáhnout z App Storu.',
+     a:function(){ return andHome(false); },
+     i:function(){ return iHome('Vítejte v novém iPhonu'); }}
+  ];
+
+  function render(){
+    var st = S[cur];
+    stepEl.textContent = st.n ? 'Krok ' + st.n + ' z 12' : 'Hotovo';
+    insEl.textContent = st.ins;
+    aS.innerHTML = st.a();
+    iS.innerHTML = st.i();
+    if(st.expect){
+      root.querySelectorAll('[data-act="' + st.expect + '"]').forEach(function(el){ el.classList.add('tgt'); });
+    }
+    restart.hidden = !!st.n;
+  }
+  function go(i, msg){
+    cur = i; busy = false;
+    fb.className = 'p-fb';
+    fb.textContent = msg || '';
+    render();
+    if(S[cur].auto) runProgress();
+  }
+  function runProgress(){
+    var p = 0;
+    busy = true;
+    clearInterval(iv);
+    iv = setInterval(function(){
+      p += 3;
+      root.querySelectorAll('.s-bar').forEach(function(b){
+        var sp = parseFloat(b.getAttribute('data-speed') || '1');
+        b.firstChild.style.width = Math.min(p * sp, 100) + '%';
+      });
+      if(p >= 100){ clearInterval(iv); setTimeout(function(){ go(cur + 1); }, 400); }
+    }, 160);
+  }
+
+  root.addEventListener('click', function(e){
+    if(busy) return;
+    if(!e.target.closest('.screen')) return;
+    var st = S[cur];
+    if(!st.expect) return;
+    var a = e.target.closest('[data-act]');
+    if(!a || a.getAttribute('data-act') !== st.expect){
+      fb.className = 'p-fb bad';
+      fb.textContent = 'Tady ne. ' + st.hint;
+      return;
+    }
+    if(st.expect === 'power'){
+      busy = true;
+      iS.innerHTML = '<div class="s-center s-hello">Ahoj</div>';
+      setTimeout(function(){ go(1); }, 900);
+    } else if(st.expect === 'key'){
+      keys++;
+      fb.className = 'p-fb'; fb.textContent = '';
+      render();
+      if(keys >= 6){ busy = true; setTimeout(function(){ go(cur + 1); }, 350); }
+    } else if(st.expect === 'withapp'){
+      go(cur + 1, 'Správně. Když zákazník aplikaci nemá, naskenuje QR kód z iPhonu a stáhne ji z Google Play.');
+    } else {
+      go(cur + 1);
+    }
+  });
+  restart.addEventListener('click', function(){ keys = 0; clearInterval(iv); go(0); });
+  go(0);
+})();
+</script>
+<script>
+// Klikací prototyp: z iPhonu na Android
+(function(){
+  var root = document.getElementById('proto3');
+  if(!root) return;
+  var iS = root.querySelector('[data-scr="ios"]'), aS = root.querySelector('[data-scr="and"]');
+  var stepEl = root.querySelector('.p-step'), insEl = root.querySelector('.p-ins'), fb = root.querySelector('.p-fb'), restart = root.querySelector('.p-restart');
+  var icols = ['#FF9F0A','#30D158','#0A84FF','#FF375F','#BF5AF2','#64D2FF'];
+  var acols = ['#4285F4','#EA4335','#FBBC05','#34A853','#A142F4','#24C1E0'];
+  var cur = 0, busy = false, iv = null;
+
+  // QR kód jako jednoduchý vzor
+  var qrSvg = (function(){
+    var n = 21, s = '<svg class="qr" viewBox="0 0 21 21" aria-hidden="true"><rect width="21" height="21" fill="#fff"/>';
+    function finder(x, y){ s += '<rect x="' + x + '" y="' + y + '" width="7" height="7" fill="#000"/><rect x="' + (x+1) + '" y="' + (y+1) + '" width="5" height="5" fill="#fff"/><rect x="' + (x+2) + '" y="' + (y+2) + '" width="3" height="3" fill="#000"/>'; }
+    finder(0,0); finder(14,0); finder(0,14);
+    var seed = 7;
+    for(var y = 0; y < n; y++) for(var x = 0; x < n; x++){
+      if((x < 8 && y < 8) || (x > 12 && y < 8) || (x < 8 && y > 12)) continue;
+      seed = (seed * 9301 + 49297) % 233280;
+      if(seed / 233280 > 0.5) s += '<rect x="' + x + '" y="' + y + '" width="1" height="1" fill="#000"/>';
+    }
+    return s + '</svg>';
+  })();
+
+  function iHome(withCam){
+    var h = '<div class="s-home">';
+    for(var i = 0; i < 12; i++) h += '<i style="background:' + icols[i % 6] + '"></i>';
+    h += '</div><div class="s-dock"><i style="background:#30D158"></i><i style="background:#0A84FF"></i><i style="background:#FF9F0A"></i>';
+    h += withCam ? '<button class="i-cam" data-act="camera" aria-label="Fotoaparát"><i></i></button>' : '<i class="i-camstatic"></i>';
+    h += '</div>';
+    if(withCam) h += '<div class="s-camlabel">Fotoaparát ↓</div>';
+    return h;
+  }
+  function aHome(note){
+    var h = '<div class="a-home">';
+    for(var i = 0; i < 12; i++) h += '<i style="background:' + acols[i % 6] + '"></i>';
+    h += '</div>';
+    if(note) h += '<div class="s-note">' + note + '</div>';
+    return h;
+  }
+  function bar(){ return '<div class="s-bar"><i></i></div>'; }
+  function imsg(on){ return '<div class="s-set"><h4>Zprávy</h4><div class="s-row"><span>iMessage</span><button class="s-switch' + (on ? '' : ' off') + '" data-act="imsg" aria-label="iMessage"></button></div></div>'; }
+
+  var S = [
+    {n:1, expect:'imsg', hint:'Na iPhonu klepni na přepínač iMessage.',
+     ins:'Než začneš, vypni na iPhonu iMessage, jinak může zákazník přestávat dostávat SMS. Klepni na přepínač.',
+     i:function(){ return imsg(true); },
+     a:function(){ return '<div class="s-off"><span>Vypnuto</span></div>'; }},
+    {n:2, expect:'power', hint:'Klepni na obrazovku nového Androidu.',
+     ins:'iMessage je vypnuté. Teď zapni nový Android: klepni na jeho obrazovku.',
+     i:function(){ return imsg(false); },
+     a:function(){ return '<div class="s-off" data-act="power"><span>Klepni pro zapnutí</span></div>'; }},
+    {n:3, expect:'start', hint:'Na Androidu klepni na Začít.',
+     ins:'Na Androidu začni nastavení: klepni na Začít.',
+     i:function(){ return iHome(false); },
+     a:function(){ return '<div class="a-page"><h4>Vítejte</h4><p>Nastavíme váš nový telefon.</p><div class="a-row"><button class="a-btn" data-act="start">Začít</button></div></div>'; }},
+    {n:4, expect:'fromiphone', hint:'Na Androidu vyber iPhone nebo iPad.',
+     ins:'Android se ptá, odkud zkopírovat data. Vyber iPhone nebo iPad.',
+     i:function(){ return iHome(false); },
+     a:function(){ return '<div class="s-list"><h4>Zkopírovat aplikace a data</h4><button data-act="other">Telefon s Androidem</button><button data-act="fromiphone">iPhone nebo iPad</button><button data-act="other">Nekopírovat</button></div>'; }},
+    {n:5, expect:'camera', hint:'Fotoaparát je šedá ikona s objektivem vpravo dole na ploše iPhonu.',
+     ins:'Android ukazuje QR kód. Na iPhonu otevři Fotoaparát: šedá ikona s objektivem vpravo dole v liště plochy.',
+     i:function(){ return iHome(true); },
+     a:function(){ return '<div class="s-center"><h4>Naskenujte kód iPhonem</h4>' + qrSvg + '<p>Použijte fotoaparát iPhonu</p></div>'; }},
+    {n:6, expect:'scan', hint:'Na iPhonu klepni na Naskenovat.',
+     ins:'Namiř iPhone na QR kód na Androidu: klepni na Naskenovat.',
+     i:function(){ return '<div class="s-cam"><div class="s-frame">' + qrSvg + '</div><button class="s-btn" data-act="scan">Naskenovat</button></div>'; },
+     a:function(){ return '<div class="s-center"><h4>Naskenujte kód iPhonem</h4>' + qrSvg + '<p>Použijte fotoaparát iPhonu</p></div>'; }},
+    {n:7, expect:'connect', hint:'Na iPhonu klepni na Připojit.',
+     ins:'iPhone se ptá, jestli se má připojit k novému Androidu. Klepni na Připojit.',
+     i:function(){ return iHome(false) + '<div class="s-sheet"><b>Připojit k novému zařízení?</b><p>Zkopírovat data do telefonu s Androidem.</p><button class="s-btn" data-act="connect">Připojit</button></div>'; },
+     a:function(){ return '<div class="s-center"><p>Připojování k iPhonu…</p></div>'; }},
+    {n:8, expect:'copy', hint:'Na Androidu klepni na Kopírovat.',
+     ins:'Se zákazníkem vyber data a klepni na Kopírovat.',
+     i:function(){ return '<div class="s-center"><p>Připojeno k Androidu</p></div>'; },
+     a:function(){ return '<div class="a-page"><h4>Co chcete zkopírovat?</h4><div class="a-checks"><span>Kontakty</span><span>Fotky a videa</span><span>Zprávy</span><span>Kalendáře</span><span>Aplikace</span></div><div class="a-row"><button class="a-btn" data-act="copy">Kopírovat</button></div></div>'; }},
+    {n:9, expect:null, auto:true,
+     ins:'Data se kopírují. Během přenosu jde pokračovat v nastavení Androidu, ale telefony nech propojené až do konce, i když přijde výzva k přenosu eSIM.',
+     i:function(){ return '<div class="s-center"><p>Kopírování do Androidu</p>' + bar() + '</div>'; },
+     a:function(){ return '<div class="s-center"><p>Kopírování dat</p>' + bar() + '</div>'; }},
+    {n:10, expect:'whatsapp', hint:'Na Androidu klepni na oznámení WhatsApp.',
+     ins:'Data jsou zkopírovaná. Zákazník používá WhatsApp, takže přišlo oznámení ke zkopírování chatů. Klepni na něj.',
+     i:function(){ return iHome(false); },
+     a:function(){ return aHome() + '<button class="a-notif" data-act="whatsapp"><b>WhatsApp</b>Zkopírujte historii chatů z iPhonu</button>'; }},
+    {n:0, expect:null,
+     ins:'Hotovo! Další kroky u WhatsAppu ukazuje telefon. Se zákazníkem zkontroluj SMS, fotky a videa. Fotky uložené jen v iCloudu se přenášejí zvlášť.',
+     i:function(){ return iHome(false); },
+     a:function(){ return aHome('Vítejte v novém telefonu'); }}
+  ];
+
+  function render(){
+    var st = S[cur];
+    stepEl.textContent = st.n ? 'Krok ' + st.n + ' z 10' : 'Hotovo';
+    insEl.textContent = st.ins;
+    iS.innerHTML = st.i();
+    aS.innerHTML = st.a();
+    if(st.expect){
+      root.querySelectorAll('[data-act="' + st.expect + '"]').forEach(function(el){ el.classList.add('tgt'); });
+    }
+    restart.hidden = !!st.n;
+  }
+  function go(i, msg){
+    cur = i; busy = false;
+    fb.className = 'p-fb';
+    fb.textContent = msg || '';
+    render();
+    if(S[cur].auto) runProgress();
+  }
+  function runProgress(){
+    var p = 0;
+    busy = true;
+    clearInterval(iv);
+    iv = setInterval(function(){
+      p += 3;
+      root.querySelectorAll('.s-bar i').forEach(function(b){ b.style.width = Math.min(p, 100) + '%'; });
+      if(p >= 100){ clearInterval(iv); setTimeout(function(){ go(cur + 1); }, 400); }
+    }, 160);
+  }
+
+  root.addEventListener('click', function(e){
+    if(busy) return;
+    if(!e.target.closest('.screen')) return;
+    var st = S[cur];
+    if(!st.expect) return;
+    var a = e.target.closest('[data-act]');
+    if(!a || a.getAttribute('data-act') !== st.expect){
+      fb.className = 'p-fb bad';
+      fb.textContent = 'Tady ne. ' + st.hint;
+      return;
+    }
+    if(st.expect === 'imsg'){
+      busy = true;
+      iS.innerHTML = imsg(false);
+      setTimeout(function(){ go(cur + 1); }, 500);
+    } else if(st.expect === 'power'){
+      busy = true;
+      aS.innerHTML = '<div class="s-center s-hello">Ahoj</div>';
+      setTimeout(function(){ go(cur + 1); }, 900);
+    } else if(st.expect === 'fromiphone'){
+      go(cur + 1, 'Tento Android umí upgradovaný přenos, proto ukazuje QR kód.');
+    } else {
+      go(cur + 1);
+    }
+  });
+  restart.addEventListener('click', function(){ clearInterval(iv); go(0); });
+  go(0);
+})();
+</script>
+<script>
+// Klikací prototyp: z Androidu na Android přes Wi-Fi
+(function(){
+  var root = document.getElementById('proto4');
+  if(!root) return;
+  var oS = root.querySelector('[data-scr="old"]'), nS = root.querySelector('[data-scr="new"]');
+  var stepEl = root.querySelector('.p-step'), insEl = root.querySelector('.p-ins'), fb = root.querySelector('.p-fb'), restart = root.querySelector('.p-restart');
+  var acols = ['#4285F4','#EA4335','#FBBC05','#34A853','#A142F4','#24C1E0'];
+  var cur = 0, busy = false, iv = null;
+
+  function home(withSearch, note){
+    var h = '<div class="a-home">';
+    for(var i = 0; i < 12; i++) h += '<i style="background:' + acols[i % 6] + '"></i>';
+    h += '</div>';
+    if(withSearch) h += '<button class="a-search" data-act="google"><b>G</b>Hledat v Googlu</button>';
+    if(note) h += '<div class="s-note">' + note + '</div>';
+    return h;
+  }
+  function page(t, p, btns){ return '<div class="a-page"><h4>' + t + '</h4><p>' + p + '</p><div class="a-row">' + btns + '</div></div>'; }
+  function wait(t){ return '<div class="s-center"><p>' + t + '</p></div>'; }
+  function bar(){ return '<div class="s-bar"><i></i></div>'; }
+
+  var S = [
+    {n:1, expect:'power', hint:'Klepni na obrazovku nového telefonu.',
+     ins:'Zapni nový telefon: klepni na jeho obrazovku.',
+     o:function(){ return home(false); },
+     w:function(){ return '<div class="s-off" data-act="power"><span>Klepni pro zapnutí</span></div>'; }},
+    {n:2, expect:'start', hint:'Na novém telefonu klepni na Začít.',
+     ins:'Na novém telefonu klepni na Začít.',
+     o:function(){ return home(false); },
+     w:function(){ return page('Vítejte', 'Nastavíme váš nový telefon.', '<button class="a-btn" data-act="start">Začít</button>'); }},
+    {n:3, expect:'wifi', hint:'Na novém telefonu vyber Domácí Wi-Fi.',
+     ins:'Připoj nový telefon k internetu: vyber síť Domácí Wi-Fi.',
+     o:function(){ return home(false); },
+     w:function(){ return '<div class="s-list"><h4>Připojte se k Wi-Fi</h4><button data-act="wifi">Domácí Wi-Fi <small>zabezpečená</small></button><button data-act="other">Kavárna_Free <small>otevřená</small></button></div>'; }},
+    {n:4, expect:'copy1', hint:'Na novém telefonu klepni na Kopírovat.',
+     ins:'Nový telefon nabízí zkopírování aplikací a dat. Klepni na Kopírovat.',
+     o:function(){ return home(false); },
+     w:function(){ return page('Kopírovat aplikace a data', 'Přeneste data ze starého telefonu.', '<button class="a-ghost" data-act="other">Nekopírovat</button><button class="a-btn" data-act="copy1">Kopírovat</button>'); }},
+    {n:5, expect:'nocable', hint:'Na novém telefonu klepni na Nemáte kabel?',
+     ins:'Nový telefon chce kabel. Zákazník ho nemá, takže klepni na Nemáte kabel?',
+     o:function(){ return home(false); },
+     w:function(){ return '<div class="a-page"><h4>Použijte starý telefon</h4><p>Propojte telefony kabelem.</p><div class="a-cable"></div><div class="a-row"><button class="a-ghost" data-act="nocable">Nemáte kabel?</button></div></div>'; }},
+    {n:6, expect:'next1', hint:'Na novém telefonu klepni na Další.',
+     ins:'Na obrazovce Bezdrátový přenos klepni na Další.',
+     o:function(){ return home(false); },
+     w:function(){ return page('Bezdrátový přenos', 'Data zkopírujete přes Wi-Fi.', '<button class="a-btn" data-act="next1">Další</button>'); }},
+    {n:7, expect:'google', hint:'Na starém telefonu klepni na vyhledávání Google dole na ploše.',
+     ins:'Teď starý telefon: otevři aplikaci Google. Klepni na vyhledávání Google dole na ploše.',
+     o:function(){ return home(true); },
+     w:function(){ return wait('Otevřete na starém telefonu aplikaci Google'); }},
+    {n:8, expect:'search', hint:'Na starém telefonu klepni na návrh nastavení zařízení.',
+     ins:'Vyhledej nastavení zařízení: klepni na návrh.',
+     o:function(){ return '<div class="a-gq"><b>G</b>nastavení zařízení</div><button class="a-sug" data-act="search">nastavení zařízení</button><button class="a-sug" data-act="other">nastavení zařízení bluetooth</button>'; },
+     w:function(){ return wait('Otevřete na starém telefonu aplikaci Google'); }},
+    {n:9, expect:'next2', hint:'Na starém telefonu klepni na Další.',
+     ins:'Na starém telefonu se objevilo Začínáme. Klepni na Další.',
+     o:function(){ return page('Začínáme', 'Nastavíte nový telefon pomocí tohoto telefonu.', '<button class="a-btn" data-act="next2">Další</button>'); },
+     w:function(){ return wait('Hledání starého telefonu…'); }},
+    {n:10, expect:'match', hint:'Porovnej obrazovky a na starém telefonu klepni na Další.',
+     ins:'Zkontroluj, že se tvary a čísla na obou telefonech shodují. Pak na starém telefonu klepni na Další.',
+     o:function(){ return '<div class="a-page"><h4>Shodují se tvary a čísla?</h4><div class="a-match">▲ ● 47</div><div class="a-row"><button class="a-btn" data-act="match">Další</button></div></div>'; },
+     w:function(){ return '<div class="s-center"><p>Zkontrolujte starý telefon</p><div class="a-match">▲ ● 47</div></div>'; }},
+    {n:11, expect:'copy2', hint:'Na starém telefonu klepni na Kopírovat.',
+     ins:'Klepni na starém telefonu na Kopírovat. Zákazník pak zadá PIN starého telefonu.',
+     o:function(){ return page('Kopírovat do nového telefonu?', 'Doporučujeme být přihlášený k účtu Google.', '<button class="a-btn" data-act="copy2">Kopírovat</button>'); },
+     w:function(){ return wait('Připojeno ke starému telefonu'); }},
+    {n:12, expect:'copy3', hint:'Na starém telefonu klepni na Kopírovat.',
+     ins:'Se zákazníkem vyber, co se má zkopírovat, a klepni na Kopírovat.',
+     o:function(){ return '<div class="a-page"><h4>Co chcete zkopírovat?</h4><div class="a-checks"><span>Aplikace</span><span>Fotky a videa</span><span>Kontakty</span><span>SMS</span><span>Nastavení</span></div><div class="a-row"><button class="a-btn" data-act="copy3">Kopírovat</button></div></div>'; },
+     w:function(){ return wait('Čekání na výběr dat…'); }},
+    {n:13, expect:null, auto:true,
+     ins:'Data se kopírují. Nech oba telefony u sebe, dokud se na starém neobjeví Kopírování je dokončeno.',
+     o:function(){ return '<div class="s-center"><p>Kopírování…</p>' + bar() + '</div>'; },
+     w:function(){ return '<div class="s-center"><p>Kopírování dat…</p>' + bar() + '</div>'; }},
+    {n:0, expect:null,
+     ins:'Hotovo! Starý telefon hlásí Kopírování je dokončeno. Se zákazníkem zkontroluj aplikace, fotky a kontakty. WhatsApp obnoví chaty po přihlášení, pokud měl zapnuté zálohování.',
+     o:function(){ return '<div class="s-center"><h4>Kopírování je dokončeno</h4></div>'; },
+     w:function(){ return home(false, 'Vítejte v novém telefonu'); }}
+  ];
+
+  function render(){
+    var st = S[cur];
+    stepEl.textContent = st.n ? 'Krok ' + st.n + ' z 13' : 'Hotovo';
+    insEl.textContent = st.ins;
+    oS.innerHTML = st.o();
+    nS.innerHTML = st.w();
+    if(st.expect){
+      root.querySelectorAll('[data-act="' + st.expect + '"]').forEach(function(el){ el.classList.add('tgt'); });
+    }
+    restart.hidden = !!st.n;
+  }
+  function go(i, msg){
+    cur = i; busy = false;
+    fb.className = 'p-fb';
+    fb.textContent = msg || '';
+    render();
+    if(S[cur].auto) runProgress();
+  }
+  function runProgress(){
+    var p = 0;
+    busy = true;
+    clearInterval(iv);
+    iv = setInterval(function(){
+      p += 3;
+      root.querySelectorAll('.s-bar i').forEach(function(b){ b.style.width = Math.min(p, 100) + '%'; });
+      if(p >= 100){ clearInterval(iv); setTimeout(function(){ go(cur + 1); }, 400); }
+    }, 160);
+  }
+
+  root.addEventListener('click', function(e){
+    if(busy) return;
+    if(!e.target.closest('.screen')) return;
+    var st = S[cur];
+    if(!st.expect) return;
+    var a = e.target.closest('[data-act]');
+    if(!a || a.getAttribute('data-act') !== st.expect){
+      fb.className = 'p-fb bad';
+      fb.textContent = 'Tady ne. ' + st.hint;
+      return;
+    }
+    if(st.expect === 'power'){
+      busy = true;
+      nS.innerHTML = '<div class="s-center s-hello">Ahoj</div>';
+      setTimeout(function(){ go(cur + 1); }, 900);
+    } else if(st.expect === 'nocable'){
+      go(cur + 1, 'Kabel je doporučený, ale přes Wi-Fi se přenesou stejná data.');
+    } else {
+      go(cur + 1);
+    }
+  });
+  restart.addEventListener('click', function(){ clearInterval(iv); go(0); });
+  go(0);
+})();
+</script>
+<script>
+// Klikací prototypy s jedním telefonem: účet Apple a účet Google
+(function(){
+  function makeProto(rootId, S, total){
+    var root = document.getElementById(rootId);
+    if(!root) return;
+    var scr = root.querySelector('[data-scr="one"]');
+    var stepEl = root.querySelector('.p-step'), insEl = root.querySelector('.p-ins'), fb = root.querySelector('.p-fb'), restart = root.querySelector('.p-restart');
+    var cur = 0, busy = false, state = {keys:0};
+    function render(){
+      var st = S[cur];
+      stepEl.textContent = st.n ? 'Krok ' + st.n + ' z ' + total : 'Hotovo';
+      insEl.textContent = st.ins;
+      scr.innerHTML = st.s(state);
+      if(st.expect){ root.querySelectorAll('[data-act="' + st.expect + '"]').forEach(function(el){ el.classList.add('tgt'); }); }
+      restart.hidden = !!st.n;
+    }
+    function go(i, msg){ cur = i; busy = false; fb.className = 'p-fb'; fb.textContent = msg || ''; render(); }
+    root.addEventListener('click', function(e){
+      if(busy || !e.target.closest('.screen')) return;
+      var st = S[cur];
+      if(!st.expect) return;
+      var a = e.target.closest('[data-act]');
+      if(!a || a.getAttribute('data-act') !== st.expect){ fb.className = 'p-fb bad'; fb.textContent = 'Tady ne. ' + st.hint; return; }
+      if(st.expect === 'key'){
+        state.keys++;
+        fb.className = 'p-fb'; fb.textContent = '';
+        render();
+        if(state.keys >= 6){ busy = true; setTimeout(function(){ go(cur + 1, st.msg); }, 350); }
+        return;
+      }
+      go(cur + 1, st.msg);
+    });
+    restart.addEventListener('click', function(){ state.keys = 0; go(0); });
+    go(0);
+  }
+  function keypad(state, label){
+    var d = '';
+    for(var i = 0; i < 6; i++) d += '<i class="' + (i < state.keys ? 'on' : '') + '"></i>';
+    var k = '';
+    ['1','2','3','4','5','6','7','8','9','','0',''].forEach(function(c){ k += c ? '<button data-act="key">' + c + '</button>' : '<span></span>'; });
+    return '<div class="s-code"><p>' + label + '</p><div class="s-dots">' + d + '</div><div class="s-keys">' + k + '</div></div>';
+  }
+  function fpage(title, text, fields, bottom){
+    var h = '<div class="f-page"><h4>' + title + '</h4>';
+    if(text) h += '<p>' + text + '</p>';
+    (fields || []).forEach(function(f){ h += '<div class="f-in' + (f.filled ? ' filled' : '') + '">' + f.t + '</div>'; });
+    return h + '<div class="f-bottom">' + bottom + '</div></div>';
+  }
+  var cols = ['#FF9F0A','#30D158','#0A84FF','#FF375F','#BF5AF2','#64D2FF'];
+  function iHome(note){
+    var h = '<div class="s-home">';
+    for(var i = 0; i < 12; i++) h += '<i style="background:' + cols[i % 6] + '"></i>';
+    return h + '</div>' + (note ? '<div class="s-note">' + note + '</div>' : '');
+  }
+  var gcols = ['#4285F4','#EA4335','#FBBC05','#34A853','#A142F4','#24C1E0'];
+  function aHome(note){
+    var h = '<div class="a-home">';
+    for(var i = 0; i < 12; i++) h += '<i style="background:' + gcols[i % 6] + '"></i>';
+    return h + '</div>' + (note ? '<div class="s-note">' + note + '</div>' : '');
+  }
+
+  makeProto('proto5', [
+    {n:1, expect:'noacc', hint:'Klepni na odkaz Zapomněli jste heslo nebo nemáte účet?',
+     ins:'iPhone chce přihlášení účtem Apple. Zákazník žádný nemá, takže klepni na Zapomněli jste heslo nebo nemáte účet?',
+     s:function(){ return fpage('Účet Apple', 'Přihlaste se e-mailem nebo telefonním číslem.', [{t:'E-mail nebo telefon'}], '<button class="f-link" data-act="noacc">Zapomněli jste heslo nebo nemáte účet?</button><button class="s-btn" data-act="other">Pokračovat</button>'); }},
+    {n:2, expect:'create', hint:'Klepni na Vytvořit bezplatný účet Apple.',
+     ins:'Klepni na Vytvořit bezplatný účet Apple.',
+     s:function(){ return iHome() + '<div class="s-sheet"><button class="f-opt" data-act="other" style="width:100%;margin-bottom:6px">Zapomněli jste heslo?</button><button class="s-btn" data-act="create">Vytvořit bezplatný účet Apple</button></div>'; }},
+    {n:3, expect:'c1', hint:'Klepni na Pokračovat.',
+     ins:'Zákazník vybere datum narození a zadá jméno. Pak klepni na Pokračovat.',
+     s:function(){ return fpage('Jméno a datum narození', '', [{t:'Jana', filled:true},{t:'Nováková', filled:true},{t:'12. 5. 1980', filled:true}], '<button class="s-btn" data-act="c1">Pokračovat</button>'); }},
+    {n:4, expect:'c2', hint:'Klepni na Pokračovat.', msg:'Když zákazník e-mail nemá, klepne na Nemáte e-mailovou adresu? a dostane zdarma adresu na iCloudu.',
+     ins:'Zákazník zadá e-mail, kterým se bude přihlašovat. Klepni na Pokračovat.',
+     s:function(){ return fpage('E-mailová adresa', 'Touto adresou se budete přihlašovat.', [{t:'jana.novakova@email.cz', filled:true}], '<button class="f-link" data-act="other">Nemáte e-mailovou adresu?</button><button class="s-btn" data-act="c2">Pokračovat</button>'); }},
+    {n:5, expect:'key', hint:'Zadej kód na klávesnici.',
+     ins:'Na e-mail přišel ověřovací kód. Zákazník ho zadá: ťukni šest čísel.',
+     s:function(st){ return keypad(st, 'Zadejte kód z e-mailu'); }},
+    {n:6, expect:'c3', hint:'Klepni na Pokračovat.',
+     ins:'Zákazník si vytvoří silné heslo a zadá ho dvakrát. Ty se nedíváš. Pak klepni na Pokračovat.',
+     s:function(){ return fpage('Vytvořte heslo', 'Aspoň 8 znaků, velká i malá písmena a číslo.', [{t:'••••••••••', filled:true},{t:'••••••••••', filled:true}], '<button class="s-btn" data-act="c3">Pokračovat</button>'); }},
+    {n:7, expect:'country', hint:'Vyber Česko.',
+     ins:'Nastav zemi nebo oblast: vyber Česko.',
+     s:function(){ return '<div class="s-list"><h4>Země nebo oblast</h4><button data-act="other">Slovensko</button><button data-act="country">Česko</button><button data-act="other">Rakousko</button></div>'; }},
+    {n:8, expect:'twofa', hint:'Klepni na Pokračovat.', msg:'Dvoufaktorové ověřování je nastavené.',
+     ins:'Nastav dvoufaktorové ověřování. Telefonní číslo pomůže ověřit identitu a obnovit účet. Klepni na Pokračovat.',
+     s:function(){ return fpage('Telefonní číslo', 'Použije se k ověření identity a obnově účtu.', [{t:'+420 603 123 456', filled:true}], '<button class="f-link" data-act="other">Použít jiné číslo</button><button class="s-btn" data-act="twofa">Pokračovat</button>'); }},
+    {n:0, ins:'Hotovo! Účet Apple je založený a zákazník může používat iCloud a App Store. Když se iPhone zeptá na platební metodu, jde zvolit Žádná.',
+     s:function(){ return iHome('Účet Apple je připravený'); }}
+  ], 8);
+
+  makeProto('proto6', [
+    {n:1, expect:'create', hint:'Klepni na Vytvořit účet.',
+     ins:'Telefon chce přihlášení ke Googlu. Zákazník účet nemá, takže klepni na Vytvořit účet.',
+     s:function(){ return fpage('Přihlásit se', 'Použijte účet Google.', [{t:'E-mail nebo telefon'}], '<div class="a-row" style="margin:0;justify-content:space-between"><button class="a-ghost" data-act="create">Vytvořit účet</button><button class="a-btn" data-act="other">Další</button></div>'); }},
+    {n:2, expect:'personal', hint:'Vyber Pro osobní použití.',
+     ins:'Vyber, pro koho je účet: Pro osobní použití.',
+     s:function(){ return fpage('Přihlásit se', '', [], '<button class="f-opt" data-act="personal">Pro osobní použití</button><button class="f-opt" data-act="other">Pro dítě</button><button class="f-opt" data-act="other">Pro správu firmy</button>'); }},
+    {n:3, expect:'n1', hint:'Klepni na Další.',
+     ins:'Zákazník zadá jméno a příjmení. Klepni na Další.',
+     s:function(){ return fpage('Vytvořte účet Google', 'Zadejte své jméno.', [{t:'Jan', filled:true},{t:'Novák', filled:true}], '<div class="a-row" style="margin:0"><button class="a-btn" data-act="n1">Další</button></div>'); }},
+    {n:4, expect:'n2', hint:'Klepni na Další.',
+     ins:'Zákazník zadá datum narození a pohlaví. Klepni na Další.',
+     s:function(){ return fpage('Základní informace', '', [{t:'3. 9. 1975', filled:true},{t:'Muž', filled:true}], '<div class="a-row" style="margin:0"><button class="a-btn" data-act="n2">Další</button></div>'); }},
+    {n:5, expect:'gmail', hint:'Vyber navrženou adresu Gmailu.', msg:'Správně. Šla by i vlastní adresa nebo stávající e-mail, účet nemusí být na Gmailu.',
+     ins:'Google nabízí adresy Gmailu. Vyber navrženou adresu.',
+     s:function(){ return fpage('Vyberte adresu Gmailu', '', [], '<button class="f-opt" data-act="gmail">jan.novak.482@gmail.com</button><button class="f-opt" data-act="other">Vytvořit vlastní adresu</button><button class="f-link" data-act="other">Použít stávající e-mail</button>'); }},
+    {n:6, expect:'n3', hint:'Klepni na Další.',
+     ins:'Zákazník zadá a potvrdí heslo. Ty se nedíváš. Klepni na Další.',
+     s:function(){ return fpage('Vytvořte silné heslo', '', [{t:'••••••••••', filled:true},{t:'••••••••••', filled:true}], '<div class="a-row" style="margin:0"><button class="a-btn" data-act="n3">Další</button></div>'); }},
+    {n:7, expect:'phone', hint:'Klepni na Přidat číslo.', msg:'Telefonní číslo pomůže s obnovením účtu, když zákazník zapomene heslo.',
+     ins:'Google nabídne přidání telefonního čísla. Je to volitelné, ale doporučené. Klepni na Přidat číslo.',
+     s:function(){ return fpage('Přidat telefonní číslo?', 'Pomůže s obnovením účtu.', [{t:'+420 603 123 456', filled:true}], '<div class="a-row" style="margin:0;justify-content:space-between"><button class="a-ghost" data-act="other">Přeskočit</button><button class="a-btn" data-act="phone">Přidat číslo</button></div>'); }},
+    {n:8, expect:'agree', hint:'Klepni na Souhlasím.',
+     ins:'Zákazník si projde podmínky. Klepni na Souhlasím.',
+     s:function(){ return fpage('Ochrana soukromí a smluvní podmínky', 'Přečtěte si, jak Google pracuje s údaji.', [], '<div class="a-row" style="margin:0"><button class="a-btn" data-act="agree">Souhlasím</button></div>'); }},
+    {n:0, ins:'Hotovo! Účet Google je založený. Doporuč zákazníkovi ještě záložní e-mail pro obnovení účtu.',
+     s:function(){ return aHome('Účet Google je připravený'); }}
+  ], 8);
+})();
+</script>
+</body>
+</html>
